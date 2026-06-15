@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="platform.mapper.LikesMapper">
+    <resultMap id="LikesMap" type="platform.entity.Likes">
+        <id column="id" property="id"/>
+        <result column="user_id" property="userId"/>
+        <result column="note_id" property="noteId"/>
+        <result column="create_time" property="createTime"/>
+    </resultMap>
+
+    <insert id="insert" parameterType="platform.entity.Likes">
+        INSERT INTO likes (user_id, note_id, create_time)
+        VALUES (#{userId}, #{noteId}, NOW())
+    </insert>
+
+    <select id="selectById" resultMap="LikesMap">
+        SELECT * FROM likes WHERE id = #{id}
+    </select>
+
+    <select id="selectByUserNote" resultMap="LikesMap">
+        SELECT * FROM likes WHERE user_id = #{userId} AND note_id = #{noteId}
+    </select>
+
+    <select id="selectByUserId" resultMap="LikesMap">
+        SELECT * FROM likes WHERE user_id = #{userId}
+    </select>
+
+    <select id="selectByNoteId" resultMap="LikesMap">
+        SELECT * FROM likes WHERE note_id = #{noteId}
+    </select>
+
+    <delete id="delete">
+        DELETE FROM likes WHERE id = #{id}
+    </delete>
+
+    <delete id="deleteByUserNote">
+        DELETE FROM likes WHERE user_id = #{userId} AND note_id = #{noteId}
+    </delete>
+
+    <delete id="deleteByNoteId">
+        DELETE FROM likes WHERE note_id = #{noteId}
+    </delete>
+
+</mapper>

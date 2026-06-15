@@ -1,0 +1,2809 @@
+﻿
+
+===== 文件: D:\IDEAproject\MBplatform\.vscode\settings.json =====
+{
+    "java.configuration.updateBuildConfiguration": "automatic"
+}
+
+===== 文件: D:\IDEAproject\MBplatform\res\mapper\CategoryMapper.xml =====
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="platform.mapper.CategoryMapper">
+    <resultMap id="CategoryMap" type="platform.entity.Category">
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+    </resultMap>
+
+    <insert id="insert" parameterType="platform.entity.Category">
+        INSERT INTO category (name) VALUES (#{name})
+    </insert>
+
+    <select id="selectById" resultMap="CategoryMap">
+        SELECT * FROM category WHERE id = #{id}
+    </select>
+
+    <select id="selectAll" resultMap="CategoryMap">
+        SELECT * FROM category
+    </select>
+
+    <update id="update" parameterType="platform.entity.Category">
+        UPDATE category SET name = #{name} WHERE id = #{id}
+    </update>
+
+    <delete id="delete">
+        DELETE FROM category WHERE id = #{id}
+    </delete>
+</mapper>
+
+===== 文件: D:\IDEAproject\MBplatform\res\mapper\CollectMapper.xml =====
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="platform.mapper.CollectMapper">
+    <resultMap id="CollectMap" type="platform.entity.Collect">
+        <id column="id" property="id"/>
+        <result column="user_id" property="userId"/>
+        <result column="mb_id" property="mbId"/>
+        <result column="create_time" property="createTime"/>
+    </resultMap>
+
+    <insert id="insert" parameterType="platform.entity.Collect">
+        INSERT INTO collect (user_id, mb_id, create_time)
+        VALUES (#{userId}, #{mbId}, NOW())
+    </insert>
+
+    <select id="selectById" resultMap="CollectMap">
+        SELECT * FROM collect WHERE id = #{id}
+    </select>
+
+    <select id="selectByUserMb" resultMap="CollectMap">
+        SELECT * FROM collect WHERE user_id = #{userId} AND mb_id = #{mbId}
+    </select>
+
+    <select id="selectByUserId" resultMap="CollectMap">
+        SELECT * FROM collect WHERE user_id = #{userId}
+    </select>
+
+    <select id="selectByMbId" resultMap="CollectMap">
+        SELECT * FROM collect WHERE mb_id = #{mbId}
+    </select>
+
+    <delete id="delete">
+        DELETE FROM collect WHERE id = #{id}
+    </delete>
+
+    <delete id="deleteByUserMb">
+        DELETE FROM collect WHERE user_id = #{userId} AND mb_id = #{mbId}
+    </delete>
+</mapper>
+
+===== 文件: D:\IDEAproject\MBplatform\res\mapper\CommentMapper.xml =====
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="platform.mapper.CommentMapper">
+    <resultMap id="CommentMap" type="platform.entity.Comment">
+        <id column="id" property="id"/>
+        <result column="user_id" property="userId"/>
+        <result column="note_id" property="noteId"/>
+        <result column="content" property="content"/>
+        <result column="create_time" property="createTime"/>
+        <result column="avatar" property="userAvatar"/>
+    </resultMap>
+
+    <insert id="insert" parameterType="platform.entity.Comment">
+        INSERT INTO comment (user_id, note_id, content, create_time)
+        VALUES (#{userId}, #{noteId}, #{content}, NOW())
+    </insert>
+
+    <select id="selectById" resultMap="CommentMap">
+        SELECT * FROM comment WHERE id = #{id}
+    </select>
+
+    <select id="selectByUserId" resultMap="CommentMap">
+        SELECT * FROM comment WHERE user_id = #{userId}
+    </select>
+
+    <select id="selectByNoteId" resultMap="CommentMap">
+        SELECT
+        c.id,
+        c.user_id,
+        c.note_id,
+        c.content,
+        c.create_time,
+        u.nickname,
+        u.avatar
+        FROM comment c
+        LEFT JOIN user u ON c.user_id = u.id
+        WHERE c.note_id = #{noteId}
+        ORDER BY c.create_time DESC
+    </select>
+
+    <update id="update" parameterType="platform.entity.Comment">
+        UPDATE comment
+        SET content = #{content}
+        WHERE id = #{id}
+    </update>
+
+    <delete id="delete">
+        DELETE FROM comment WHERE id = #{id}
+    </delete>
+
+    <delete id="deleteByNoteId">
+        DELETE FROM comment WHERE note_id = #{noteId}
+    </delete>
+
+</mapper>
+
+===== 文件: D:\IDEAproject\MBplatform\res\mapper\LikesMapper.xml =====
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="platform.mapper.LikesMapper">
+    <resultMap id="LikesMap" type="platform.entity.Likes">
+        <id column="id" property="id"/>
+        <result column="user_id" property="userId"/>
+        <result column="note_id" property="noteId"/>
+        <result column="create_time" property="createTime"/>
+    </resultMap>
+
+    <insert id="insert" parameterType="platform.entity.Likes">
+        INSERT INTO likes (user_id, note_id, create_time)
+        VALUES (#{userId}, #{noteId}, NOW())
+    </insert>
+
+    <select id="selectById" resultMap="LikesMap">
+        SELECT * FROM likes WHERE id = #{id}
+    </select>
+
+    <select id="selectByUserNote" resultMap="LikesMap">
+        SELECT * FROM likes WHERE user_id = #{userId} AND note_id = #{noteId}
+    </select>
+
+    <select id="selectByUserId" resultMap="LikesMap">
+        SELECT * FROM likes WHERE user_id = #{userId}
+    </select>
+
+    <select id="selectByNoteId" resultMap="LikesMap">
+        SELECT * FROM likes WHERE note_id = #{noteId}
+    </select>
+
+    <delete id="delete">
+        DELETE FROM likes WHERE id = #{id}
+    </delete>
+
+    <delete id="deleteByUserNote">
+        DELETE FROM likes WHERE user_id = #{userId} AND note_id = #{noteId}
+    </delete>
+
+    <delete id="deleteByNoteId">
+        DELETE FROM likes WHERE note_id = #{noteId}
+    </delete>
+
+</mapper>
+
+===== 文件: D:\IDEAproject\MBplatform\res\mapper\MovieBookMapper.xml =====
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="platform.mapper.MovieBookMapper">
+    <resultMap id="MovieBookMap" type="platform.entity.MovieBook">
+        <id column="id" property="id"/>
+        <result column="type" property="type"/>
+        <result column="category_id" property="categoryId"/>
+        <result column="title" property="title"/>
+        <result column="cover" property="cover"/>
+        <result column="intro" property="intro"/>
+        <result column="score" property="score"/>
+        <result column="hot" property="hot"/>
+        <result column="audit_status" property="auditStatus"/>
+        <result column="apply_user_id" property="applyUserId"/>
+        <result column="create_time" property="createTime"/>
+    </resultMap>
+
+    <resultMap id="MovieBookDetailMap" type="platform.entity.MovieBook">
+        <id column="id" property="id"/>
+        <result column="type" property="type"/>
+        <result column="title" property="title"/>
+        <!-- 核心修复：在此处加回 cover 封面印记，确保通过 View 获取详情时封面存续 -->
+        <result column="cover" property="cover"/>
+        <result column="category_name" property="categoryName"/>
+        <result column="intro" property="intro"/>
+        <result column="score" property="score"/>
+        <result column="hot" property="hot"/>
+        <result column="note_count" property="noteCount"/>
+    </resultMap>
+
+    <insert id="insert" parameterType="platform.entity.MovieBook">
+        INSERT INTO movie_book (type, category_id, title, cover, intro, score, hot, audit_status, apply_user_id, create_time)
+        VALUES (#{type}, #{categoryId}, #{title}, #{cover}, #{intro}, #{score}, IFNULL(#{hot},0), #{auditStatus}, #{applyUserId}, NOW())
+    </insert>
+
+    <select id="selectById" resultMap="MovieBookMap">
+        SELECT * FROM movie_book WHERE id = #{id}
+    </select>
+
+    <select id="selectByType" resultMap="MovieBookMap">
+        SELECT * FROM movie_book WHERE type = #{type} AND audit_status = 1
+    </select>
+
+    <select id="selectByCategory" resultMap="MovieBookMap">
+        SELECT * FROM movie_book WHERE category_id = #{categoryId} AND audit_status = 1
+    </select>
+
+    <select id="selectByAuditStatus" resultMap="MovieBookMap">
+        SELECT * FROM movie_book WHERE audit_status = #{auditStatus}
+    </select>
+
+    <select id="searchByTitle" resultMap="MovieBookMap">
+        SELECT * FROM movie_book WHERE title LIKE CONCAT('%', #{title}, '%') AND audit_status = 1
+    </select>
+
+    <select id="selectHot" resultMap="MovieBookMap">
+        SELECT * FROM movie_book WHERE audit_status = 1 ORDER BY hot DESC LIMIT #{limit}
+    </select>
+
+    <select id="searchByTitleWithProc" resultMap="MovieBookMap">
+        CALL proc_search_movie_book(#{keyword})
+    </select>
+
+    <select id="selectHotWithProc" resultMap="MovieBookMap">
+        CALL proc_get_hot_movie_book(#{limit})
+    </select>
+
+    <update id="auditPassWithProc">
+        CALL proc_audit_pass(#{id})
+    </update>
+
+    <update id="auditRejectWithProc">
+        CALL proc_audit_reject(#{id})
+    </update>
+
+    <select id="selectAllApproved" resultMap="MovieBookMap">
+        SELECT * FROM view_approved_movie_book
+    </select>
+
+    <select id="selectDetailById" resultMap="MovieBookDetailMap">
+        SELECT * FROM view_movie_book_detail WHERE id = #{id}
+    </select>
+
+    <select id="selectAllDetail" resultMap="MovieBookDetailMap">
+        SELECT * FROM view_movie_book_detail
+    </select>
+
+    <update id="update" parameterType="platform.entity.MovieBook">
+        UPDATE movie_book
+        SET type = #{type}, category_id = #{categoryId}, title = #{title},
+        cover = #{cover}, intro = #{intro}, score = #{score}, hot = #{hot},
+        audit_status = #{auditStatus}, apply_user_id = #{applyUserId}
+        WHERE id = #{id}
+    </update>
+
+    <delete id="delete">
+        DELETE FROM movie_book WHERE id = #{id}
+    </delete>
+
+    <update id="updateAuditStatus">
+        UPDATE movie_book SET audit_status = #{status} WHERE id = #{id}
+    </update>
+
+    <update id="updateHot">
+        UPDATE movie_book SET hot = #{hot} WHERE id = #{id}
+    </update>
+
+    <update id="updateScore">
+        UPDATE movie_book SET score = #{score} WHERE id = #{id}
+    </update>
+
+    <!-- 调用统计存储过程 -->
+    <select id="selectStatsOverview" resultType="map" statementType="CALLABLE">
+        CALL proc_stat()
+    </select>
+
+    <!-- 实时重算引擎：将平均分与三大社交热度源（收藏/点赞/书评）完美融合更新 -->
+    <!-- 完美的实时重算引擎：将平均分与四大社交热度源（收藏/点赞/随笔/留言）融合更新 -->
+    <update id="recalculateScoreAndHot">
+        UPDATE movie_book mb
+        SET
+        mb.score = COALESCE(
+        (SELECT AVG(star) FROM note WHERE mb_id = #{id}),
+        0.0
+        ),
+        mb.hot = (
+        (SELECT COUNT(*) FROM collect WHERE mb_id = #{id})  +
+        (SELECT COUNT(*) FROM likes WHERE note_id IN (SELECT id FROM note WHERE mb_id = #{id}))  +
+        (SELECT COUNT(*) FROM note WHERE mb_id = #{id})  +
+        (SELECT COUNT(*) FROM comment WHERE note_id IN (SELECT id FROM note WHERE mb_id = #{id}))
+        )
+        WHERE mb.id = #{id}
+    </update>
+
+</mapper>
+
+===== 文件: D:\IDEAproject\MBplatform\res\mapper\NoteMapper.xml =====
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="platform.mapper.NoteMapper">
+    <resultMap id="NoteMap" type="platform.entity.Note">
+        <id column="id" property="id"/>
+        <result column="user_id" property="userId"/>
+        <result column="mb_id" property="mbId"/>
+        <result column="content" property="content"/>
+        <result column="star" property="star"/>
+        <result column="img" property="img"/>
+        <result column="create_time" property="createTime"/>
+        <result column="avatar" property="userAvatar"/>
+    </resultMap>
+
+    <insert id="insert" parameterType="platform.entity.Note">
+        INSERT INTO note (user_id, mb_id, content, star, img, create_time)
+        VALUES (#{userId}, #{mbId}, #{content}, #{star}, #{img}, NOW())
+    </insert>
+
+    <select id="selectById" resultMap="NoteMap">
+        SELECT * FROM note WHERE id = #{id}
+    </select>
+
+    <select id="selectByUserId" resultMap="NoteMap">
+        SELECT
+        n.id,
+        n.user_id,
+        n.mb_id,
+        n.content,
+        n.star,
+        n.img,
+        n.create_time,
+        u.nickname,
+        u.avatar
+        FROM note n
+        LEFT JOIN user u ON n.user_id = u.id
+        WHERE n.user_id = #{userId}
+        ORDER BY n.create_time DESC
+    </select>
+
+    <select id="selectByMbId" resultMap="NoteMap">
+        SELECT
+        n.id,
+        n.user_id,
+        n.mb_id,
+        n.content,
+        n.star,
+        n.img,
+        n.create_time,
+        u.nickname,
+        u.avatar
+        FROM note n
+        LEFT JOIN user u ON n.user_id = u.id
+        WHERE n.mb_id = #{mbId}
+        ORDER BY n.create_time DESC
+    </select>
+
+    <update id="update" parameterType="platform.entity.Note">
+        UPDATE note SET user_id = #{userId}, mb_id = #{mbId}, content = #{content}, star = #{star}, img = #{img}
+        WHERE id = #{id}
+    </update>
+
+    <delete id="delete">
+        DELETE FROM note WHERE id = #{id}
+    </delete>
+</mapper>
+
+===== 文件: D:\IDEAproject\MBplatform\res\mapper\UserMapper.xml =====
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="platform.mapper.UserMapper">
+    <resultMap id="UserMap" type="platform.entity.User">
+        <id column="id" property="id"/>
+        <result column="username" property="username"/>
+        <result column="password" property="password"/>
+        <result column="nickname" property="nickname"/>
+        <result column="avatar" property="avatar"/>
+        <result column="role" property="role"/>
+        <result column="create_time" property="createTime"/>
+    </resultMap>
+
+    <insert id="insert" parameterType="platform.entity.User">
+        INSERT INTO user (username, password, nickname, avatar, role, create_time)
+        VALUES (#{username}, #{password}, #{nickname}, #{avatar}, #{role}, NOW())
+    </insert>
+
+    <select id="selectById" resultMap="UserMap">
+        SELECT * FROM user WHERE id = #{id}
+    </select>
+
+    <select id="selectByUsername" resultMap="UserMap">
+        SELECT * FROM user WHERE username = #{username}
+    </select>
+
+    <update id="update" parameterType="platform.entity.User">
+        UPDATE user
+        <set>
+            <if test="username != null and username != ''">username = #{username},</if>
+            <if test="password != null and password != ''">password = #{password},</if>
+            <if test="nickname != null">nickname = #{nickname},</if>
+            <if test="avatar != null">avatar = #{avatar},</if>
+            <if test="role != null">role = #{role}</if>
+        </set>
+        WHERE id = #{id}
+    </update>
+
+    <delete id="delete">
+        DELETE FROM user WHERE id = #{id}
+    </delete>
+</mapper>
+
+===== 文件: D:\IDEAproject\MBplatform\res\application.yml =====
+server:
+  port: 8080
+
+spring:
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 10MB
+      max-request-size: 20MB
+
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/movie_note_platform?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
+    username: root
+    password: root
+
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+  type-aliases-package: platform.entity
+  configuration:
+    map-underscore-to-camel-case: true
+
+logging:
+  level:
+    platform.mapper: debug
+
+file:
+  upload-path: ./upload/
+
+===== 文件: D:\IDEAproject\MBplatform\src\platform\config\WebConfig.java =====
+package platform.config;
+
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+
+import java.io.File;
+
+@Configuration
+public class WebConfig implements WebMvcConfigurer {
+
+    @Value("${file.upload-path:./upload/}")
+    private String uploadDir;
+
+    @Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        // 获取 uploadDir 的绝对路径并转换成 Spring 需要的 file: 协议格式
+        String path = new File(uploadDir).getAbsolutePath() + File.separator;
+
+        // 确保路径格式正确（Windows系统下需要替换反斜杠）
+        if (!path.startsWith("file:")) {
+            path = "file:" + path.replace("\\", "/");
+        }
+
+        // 将网络访问路径 /files/** 映射到刚才配置的物理目录
+        registry.addResourceHandler("/files/**")
+                .addResourceLocations(path);
+    }
+
+    @Override
+    public void addCorsMappings(CorsRegistry registry) {
+        registry.addMapping("/**")
+                .allowedOrigins("http://localhost:3000")
+                .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
+                .allowedHeaders("*")
+                .allowCredentials(true);
+    }
+}
+
+===== 文件: D:\IDEAproject\MBplatform\src\platform\controller\CategoryController.java =====
+package platform.controller;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+import platform.entity.Category;
+import platform.service.CategoryService;
+import platform.util.Result;
+
+import java.util.List;
+
+@RestController
+@RequestMapping("/category")
+@CrossOrigin
+public class CategoryController {
+
+    @Autowired
+    private CategoryService categoryService;
+
+    @PostMapping("/add")
+    public Result add(@RequestBody Category category) {
+        try {
+            int result = categoryService.add(category);
+            return Result.success(result);
+        } catch (Exception e) {
+            return Result.error("添加失败：" + e.getMessage());
+        }
+    }
+
+    @GetMapping("/{id}")
+    public Result getById(@PathVariable Integer id) {
+        try {
+            Category category = categoryService.getById(id);
+            return Result.success(category);
+        } catch (Exception e) {
+            return Result.error("查询失败：" + e.getMessage());
+        }
+    }
+
+    @GetMapping("/all")
+    public Result getAll() {
+        try {
+            List<Category> list = categoryService.getAll();
+            return Result.success(list);
+        } catch (Exception e) {
+            return Result.error("查询失败：" + e.getMessage());
+        }
+    }
+
+    @PutMapping("/update")
+    public Result update(@RequestBody Category category) {
+        try {
+            int result = categoryService.update(category);
+            return Result.success(result);
+        } catch (Exception e) {
+            return Result.error("更新失败：" + e.getMessage());
+        }
+    }
+
+    @DeleteMapping("/{id}")
+    public Result delete(@PathVariable Integer id) {
+        try {
+            int result = categoryService.delete(id);
+            return Result.success(result);
+        } catch (Exception e) {
+            return Result.error("删除失败：" + e.getMessage());
+        }
+    }
+}
+
+===== 文件: D:\IDEAproject\MBplatform\src\platform\controller\CollectController.java =====
+package platform.controller;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+import platform.entity.Collect;
+import platform.service.CollectService;
+import platform.util.Result;
+
+import java.util.List;
+
+@RestController
+@RequestMapping("/collect")
+@CrossOrigin
+public class CollectController {
+
+    @Autowired
+    private CollectService collectService;
+
+    @PostMapping("/add")
+    public Result add(@RequestBody Collect collect) {
+        try {
+            int result = collectService.add(collect);
+            return Result.success(result);
+        } catch (Exception e) {
+            return Result.error("收藏失败：" + e.getMessage());
+        }
+    }
+
+    @GetMapping("/{id}")
+    public Result getById(@PathVariable Integer id) {
+        try {
+            Collect collect = collectService.getById(id);
+            return Result.success(collect);
+        } catch (Exception e) {
+            return Result.error("查询失败：" + e.getMessage());
+        }
+    }
+
+    @GetMapping("/user/{userId}")
+    public Result getByUserId(@PathVariable Integer userId) {
+        try {
+            List<Collect> list = collectService.getByUserId(userId);
+            return Result.success(list);
+        } catch (Exception e) {
+            return Result.error("查询失败：" + e.getMessage());
+        }
+    }
+
+    @GetMapping("/mb/{mbId}")
+    public Result getByMbId(@PathVariable Integer mbId) {
+        try {
+            List<Collect> list = collectService.getByMbId(mbId);
+            return Result.success(list);
+        } catch (Exception e) {
+            return Result.error("查询失败：" + e.getMessage());
+        }
+    }
+
+    @DeleteMapping("/{id}")
+    public Result delete(@PathVariable Integer id) {
+        try {
+            int result = collectService.delete(id);
+            return Result.success(result);
+        } catch (Exception e) {
+            return Result.error("删除失败：" + e.getMessage());
+        }
+    }
+
+    @DeleteMapping("/cancel")
+    public Result cancel(@RequestParam Integer userId, @RequestParam Integer mbId) {
+        try {
+            int result = collectService.cancel(userId, mbId);
+            return Result.success(result);
+        } catch (Exception e) {
+            return Result.error("取消收藏失败：" + e.getMessage());
+        }
+    }
+
+    @GetMapping("/check")
+    public Result check(@RequestParam Integer userId, @RequestParam Integer mbId) {
+        try {
+            boolean isCollected = collectService.isCollected(userId, mbId);
+            return Result.success(isCollected);
+        } catch (Exception e) {
+            return Result.error("查询失败：" + e.getMessage());
+        }
+    }
+}
+
+===== 文件: D:\IDEAproject\MBplatform\src\platform\controller\CommentController.java =====
+package platform.controller;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+import platform.entity.Comment;
+import platform.service.CommentService;
+import platform.util.Result;
+
+import java.util.List;
+
+@RestController
+@RequestMapping("/comment")
+@CrossOrigin
+public class CommentController {
+
+    @Autowired
+    private CommentService commentService;
+
+    @PostMapping("/add")
+    public Result add(@RequestBody Comment comment) {
+        try {
+            int result = commentService.add(comment);
+            return Result.success(result);
+        } catch (Exception e) {
+            return Result.error("添加失败：" + e.getMessage());
+        }
+    }
+
+    @GetMapping("/{id}")
+    public Result getById(@PathVariable Integer id) {
+        try {
+            Comment comment = commentService.getById(id);
+            return Result.success(comment);
+        } catch (Exception e) {
+            return Result.error("查询失败：" + e.getMessage());
+        }
+    }
+
+    @GetMapping("/user/{userId}")
+    public Result getByUserId(@PathVariable Integer userId) {
+        try {
+            List<Comment> list = commentService.getByUserId(userId);
+            return Result.success(list);
+        } catch (Exception e) {
+            return Result.error("查询失败：" + e.getMessage());
+        }
+    }
+
+    @GetMapping("/note/{noteId}")
+    public Result getByNoteId(@PathVariable Integer noteId) {
+        try {
+            List<Comment> list = commentService.getByNoteId(noteId);
+            return Result.success(list);
+        } catch (Exception e) {
+            return Result.error("查询失败：" + e.getMessage());
+        }
+    }
+
+    @PutMapping("/update")
+    public Result update(@RequestBody Comment comment) {
+        try {
+            int result = commentService.update(comment);
+            return Result.success(result);
+        } catch (Exception e) {
+            return Result.error("更新失败：" + e.getMessage());
+        }
+    }
+
+    @DeleteMapping("/{id}")
+    public Result delete(@PathVariable Integer id) {
+        try {
+            int result = commentService.delete(id);
+            return Result.success(result);
+        } catch (Exception e) {
+            return Result.error("删除失败：" + e.getMessage());
+        }
+    }
+}
+
+===== 文件: D:\IDEAproject\MBplatform\src\platform\controller\FileController.java =====
+package platform.controller;
+
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import platform.util.Result;
+
+import javax.servlet.http.HttpServletRequest;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
+import java.util.UUID;
+
+@RestController
+@RequestMapping("/file")
+@CrossOrigin
+public class FileController {
+
+    // 读取配置文件中的路径，如果没有配置，默认用当前目录下的 upload
+    @Value("${file.upload-path:./upload/}")
+    private String uploadDir;
+
+    @PostMapping("/upload")
+    public Result upload(@RequestParam("file") MultipartFile file, HttpServletRequest request) {
+        if (file.isEmpty()) {
+            return Result.error("文件不能为空");
+        }
+
+        try {
+            // 1. 获取绝对路径（动态识别当前项目在哪，就存到哪里的 upload 文件夹）
+            File folder = new File(uploadDir);
+            String absolutePath = folder.getAbsolutePath(); // 获取绝对路径
+
+            if (!folder.exists()) {
+                folder.mkdirs(); // 自动创建文件夹
+            }
+
+            // 2. 生成文件名
+            String originalFilename = file.getOriginalFilename();
+            String suffix = originalFilename != null && originalFilename.contains(".")
+                    ? originalFilename.substring(originalFilename.lastIndexOf(".")) : ".jpg";
+            String newFilename = UUID.randomUUID().toString() + suffix;
+
+            // 3. 物理保存
+            File destFile = new File(folder, newFilename);
+            Files.copy(file.getInputStream(), destFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+
+            // 4. 动态拼接访问 URL
+            String scheme = request.getScheme();
+            String serverName = request.getServerName();
+            int serverPort = request.getServerPort();
+            String portSuffix = (serverPort == 80 || serverPort == 443) ? "" : ":" + serverPort;
+
+            // 注意：这里返回的 /files/ 是虚拟映射路径
+            String fileUrl = scheme + "://" + serverName + portSuffix + "/files/" + newFilename;
+
+            return Result.success(fileUrl);
+        } catch (IOException e) {
+            return Result.error("文件保存失败：" + e.getMessage());
+        }
+    }
+}
+
+===== 文件: D:\IDEAproject\MBplatform\src\platform\controller\LikesController.java =====
+package platform.controller;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+import platform.entity.Likes;
+import platform.service.LikesService;
+import platform.util.Result;
+
+import java.util.List;
+
+@RestController
+@RequestMapping("/likes")
+@CrossOrigin
+public class LikesController {
+
+    @Autowired
+    private LikesService likesService;
+
+    @PostMapping("/add")
+    public Result add(@RequestBody Likes likes) {
+        try {
+            int result = likesService.add(likes);
+            return Result.success(result);
+        } catch (Exception e) {
+            return Result.error("点赞失败：" + e.getMessage());
+        }
+    }
+
+    @GetMapping("/{id}")
+    public Result getById(@PathVariable Integer id) {
+        try {
+            Likes likes = likesService.getById(id);
+            return Result.success(likes);
+        } catch (Exception e) {
+            return Result.error("查询失败：" + e.getMessage());
+        }
+    }
+
+    @GetMapping("/user/{userId}")
+    public Result getByUserId(@PathVariable Integer userId) {
+        try {
+            List<Likes> list = likesService.getByUserId(userId);
+            return Result.success(list);
+        } catch (Exception e) {
+            return Result.error("查询失败：" + e.getMessage());
+        }
+    }
+
+    @GetMapping("/note/{noteId}")
+    public Result getByNoteId(@PathVariable Integer noteId) {
+        try {
+            List<Likes> list = likesService.getByNoteId(noteId);
+            return Result.success(list);
+        } catch (Exception e) {
+            return Result.error("查询失败：" + e.getMessage());
+        }
+    }
+
+    @DeleteMapping("/{id}")
+    public Result delete(@PathVariable Integer id) {
+        try {
+            int result = likesService.delete(id);
+            return Result.success(result);
+        } catch (Exception e) {
+            return Result.error("删除失败：" + e.getMessage());
+        }
+    }
+
+    @DeleteMapping("/cancel")
+    public Result cancel(@RequestParam Integer userId, @RequestParam Integer noteId) {
+        try {
+            int result = likesService.cancel(userId, noteId);
+            return Result.success(result);
+        } catch (Exception e) {
+            return Result.error("取消点赞失败：" + e.getMessage());
+        }
+    }
+
+    @GetMapping("/check")
+    public Result check(@RequestParam Integer userId, @RequestParam Integer noteId) {
+        try {
+            boolean isLiked = likesService.isLiked(userId, noteId);
+            return Result.success(isLiked);
+        } catch (Exception e) {
+            return Result.error("查询失败：" + e.getMessage());
+        }
+    }
+}
+
+===== 文件: D:\IDEAproject\MBplatform\src\platform\controller\MovieBookController.java =====
+package platform.controller;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+import platform.entity.MovieBook;
+import platform.service.MovieBookService;
+import platform.util.Result;
+
+import java.util.List;
+
+@RestController
+@RequestMapping("/moviebook")
+@CrossOrigin
+public class MovieBookController {
+
+    @Autowired
+    private MovieBookService movieBookService;
+
+    @PostMapping("/add")
+    public Result add(@RequestBody MovieBook movieBook) {
+        try {
+            int result = movieBookService.add(movieBook);
+            return Result.success(result);
+        } catch (Exception e) {
+            return Result.error("添加失败：" + e.getMessage());
+        }
+    }
+
+    @GetMapping("/{id}")
+    public Result getById(@PathVariable Integer id) {
+        try {
+            MovieBook movieBook = movieBookService.getById(id);
+            return Result.success(movieBook);
+        } catch (Exception e) {
+            return Result.error("查询失败：" + e.getMessage());
+        }
+    }
+
+    @GetMapping("/type/{type}")
+    public Result getByType(@PathVariable Integer type) {
+        try {
+            List<MovieBook> list = movieBookService.getByType(type);
+            return Result.success(list);
+        } catch (Exception e) {
+            return Result.error("查询失败：" + e.getMessage());
+        }
+    }
+
+    @GetMapping("/category/{categoryId}")
+    public Result getByCategory(@PathVariable Integer categoryId) {
+        try {
+            List<MovieBook> list = movieBookService.getByCategory(categoryId);
+            return Result.success(list);
+        } catch (Exception e) {
+            return Result.error("查询失败：" + e.getMessage());
+        }
+    }
+
+    @GetMapping("/audit/{status}")
+    public Result getByAuditStatus(@PathVariable Integer status) {
+        try {
+            List<MovieBook> list = movieBookService.getByAuditStatus(status);
+            return Result.success(list);
+        } catch (Exception e) {
+            return Result.error("查询失败：" + e.getMessage());
+        }
+    }
+
+    @GetMapping("/search")
+    public Result search(@RequestParam String title) {
+        try {
+            List<MovieBook> list = movieBookService.search(title);
+            return Result.success(list);
+        } catch (Exception e) {
+            return Result.error("搜索失败：" + e.getMessage());
+        }
+    }
+
+    @GetMapping("/hot")
+    public Result getHot(@RequestParam(defaultValue = "10") Integer limit) {
+        try {
+            List<MovieBook> list = movieBookService.getHot(limit);
+            return Result.success(list);
+        } catch (Exception e) {
+            return Result.error("查询失败：" + e.getMessage());
+        }
+    }
+
+    @PutMapping("/update")
+    public Result update(@RequestBody MovieBook movieBook) {
+        try {
+            int result = movieBookService.update(movieBook);
+            return Result.success(result);
+        } catch (Exception e) {
+            return Result.error("更新失败：" + e.getMessage());
+        }
+    }
+
+    @DeleteMapping("/{id}")
+    public Result delete(@PathVariable Integer id) {
+        try {
+            int result = movieBookService.delete(id);
+            return Result.success(result);
+        } catch (Exception e) {
+            return Result.error("删除失败：" + e.getMessage());
+        }
+    }
+
+    @PutMapping("/audit/pass/{id}")
+    public Result auditPass(@PathVariable Integer id) {
+        try {
+            int result = movieBookService.auditPass(id);
+            return Result.success(result);
+        } catch (Exception e) {
+            return Result.error("审核失败：" + e.getMessage());
+        }
+    }
+
+    @PutMapping("/audit/reject/{id}")
+    public Result auditReject(@PathVariable Integer id) {
+        try {
+            int result = movieBookService.auditReject(id);
+            return Result.success(result);
+        } catch (Exception e) {
+            return Result.error("审核失败：" + e.getMessage());
+        }
+    }
+
+    @GetMapping("/search/proc")
+    public Result searchWithProc(@RequestParam String keyword) {
+        try {
+            List<MovieBook> list = movieBookService.searchWithProc(keyword);
+            return Result.success(list);
+        } catch (Exception e) {
+            return Result.error("搜索失败：" + e.getMessage());
+        }
+    }
+
+    @GetMapping("/hot/proc")
+    public Result getHotWithProc(@RequestParam(defaultValue = "50") Integer limit) {
+        try {
+            List<MovieBook> list = movieBookService.getHotWithProc(limit);
+            return Result.success(list);
+        } catch (Exception e) {
+            return Result.error("查询失败：" + e.getMessage());
+        }
+    }
+
+    @PutMapping("/audit/pass/proc/{id}")
+    public Result auditPassWithProc(@PathVariable Integer id) {
+        try {
+            int result = movieBookService.auditPassWithProc(id);
+            return Result.success(result);
+        } catch (Exception e) {
+            return Result.error("审核失败：" + e.getMessage());
+        }
+    }
+
+    @PutMapping("/audit/reject/proc/{id}")
+    public Result auditRejectWithProc(@PathVariable Integer id) {
+        try {
+            int result = movieBookService.auditRejectWithProc(id);
+            return Result.success(result);
+        } catch (Exception e) {
+            return Result.error("审核失败：" + e.getMessage());
+        }
+    }
+
+    @GetMapping("/approved")
+    public Result getAllApproved() {
+        try {
+            List<MovieBook> list = movieBookService.getAllApproved();
+            return Result.success(list);
+        } catch (Exception e) {
+            return Result.error("查询失败：" + e.getMessage());
+        }
+    }
+
+    @GetMapping("/detail/{id}")
+    public Result getDetailById(@PathVariable Integer id) {
+        try {
+            MovieBook movieBook = movieBookService.getDetailById(id);
+            return Result.success(movieBook);
+        } catch (Exception e) {
+            return Result.error("查询失败：" + e.getMessage());
+        }
+    }
+
+    @GetMapping("/detail/all")
+    public Result getAllDetail() {
+        try {
+            List<MovieBook> list = movieBookService.getAllDetail();
+            return Result.success(list);
+        } catch (Exception e) {
+            return Result.error("查询失败：" + e.getMessage());
+        }
+    }
+}
+
+===== 文件: D:\IDEAproject\MBplatform\src\platform\controller\NoteController.java =====
+package platform.controller;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+import platform.entity.Note;
+import platform.service.NoteService;
+import platform.util.Result;
+
+import java.util.List;
+
+@RestController
+@RequestMapping("/note")
+@CrossOrigin
+public class NoteController {
+
+    @Autowired
+    private NoteService noteService;
+
+    @PostMapping("/add")
+    public Result add(@RequestBody Note note) {
+        try {
+            int result = noteService.add(note);
+            return Result.success(result);
+        } catch (Exception e) {
+            return Result.error("添加失败：" + e.getMessage());
+        }
+    }
+
+    @GetMapping("/{id}")
+    public Result getById(@PathVariable Integer id) {
+        try {
+            Note note = noteService.getById(id);
+            return Result.success(note);
+        } catch (Exception e) {
+            return Result.error("查询失败：" + e.getMessage());
+        }
+    }
+
+    @GetMapping("/user/{userId}")
+    public Result getByUserId(@PathVariable Integer userId) {
+        try {
+            List<Note> list = noteService.getByUserId(userId);
+            return Result.success(list);
+        } catch (Exception e) {
+            return Result.error("查询失败：" + e.getMessage());
+        }
+    }
+
+    @GetMapping("/mb/{mbId}")
+    public Result getByMbId(@PathVariable Integer mbId) {
+        try {
+            List<Note> list = noteService.getByMbId(mbId);
+            return Result.success(list);
+        } catch (Exception e) {
+            return Result.error("查询失败：" + e.getMessage());
+        }
+    }
+
+    @PutMapping("/update")
+    public Result update(@RequestBody Note note) {
+        try {
+            int result = noteService.update(note);
+            return Result.success(result);
+        } catch (Exception e) {
+            return Result.error("更新失败：" + e.getMessage());
+        }
+    }
+
+    @DeleteMapping("/{id}")
+    public Result delete(@PathVariable Integer id) {
+        try {
+            int result = noteService.delete(id);
+            return Result.success(result);
+        } catch (Exception e) {
+            return Result.error("删除失败：" + e.getMessage());
+        }
+    }
+}
+
+===== 文件: D:\IDEAproject\MBplatform\src\platform\controller\StatController.java =====
+package platform.controller;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+import platform.service.CategoryService;
+import platform.service.MovieBookService;
+import platform.util.Result;
+import java.util.List;
+import java.util.Map;
+
+@RestController
+@RequestMapping("/stat")
+@CrossOrigin
+public class StatController {
+
+    @Autowired
+    private MovieBookService movieBookService;
+
+    @Autowired
+    private CategoryService categoryService;
+
+    @GetMapping("/overview")
+    public Result getOverview() {
+        try {
+            // 优雅解耦：直接合并调用 Service 对应 MyBatis 调用的 proc_stat 存储过程，不再出现僵尸代码与硬编码
+            Map<String, Object> data = movieBookService.getStatsOverview();
+            return Result.success(data);
+        } catch (Exception e) {
+            return Result.error("统计报表获取失败：" + e.getMessage());
+        }
+    }
+
+    @GetMapping("/categories")
+    public Result getCategories() {
+        try {
+            return Result.success(categoryService.getAll());
+        } catch (Exception e) {
+            return Result.error("分类树形数据查询失败：" + e.getMessage());
+        }
+    }
+
+    @GetMapping("/hot")
+    public Result getHot(@RequestParam(defaultValue = "10") Integer limit) {
+        try {
+            return Result.success(movieBookService.getHot(limit));
+        } catch (Exception e) {
+            return Result.error("热度趋势分析失败：" + e.getMessage());
+        }
+    }
+}
+
+===== 文件: D:\IDEAproject\MBplatform\src\platform\controller\UserController.java =====
+package platform.controller;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+import platform.entity.User;
+import platform.service.UserService;
+import platform.util.Result;
+
+@RestController
+@RequestMapping("/user")
+@CrossOrigin
+public class UserController {
+
+    @Autowired
+    private UserService userService;
+
+    @PostMapping("/register")
+    public Result register(@RequestBody User user) {
+        try {
+            User registered = userService.register(user);
+            return Result.success(registered);
+        } catch (Exception e) {
+            return Result.error("注册失败：" + e.getMessage());
+        }
+    }
+
+    @PostMapping("/login")
+    public Result login(@RequestBody User user) {
+        try {
+            User loggedUser = userService.login(user.getUsername(), user.getPassword());
+            if (loggedUser != null) {
+                return Result.success(loggedUser);
+            } else {
+                return Result.error("用户名或密码错误");
+            }
+        } catch (Exception e) {
+            return Result.error("登录失败：" + e.getMessage());
+        }
+    }
+
+    @GetMapping("/{id}")
+    public Result getById(@PathVariable Integer id) {
+        try {
+            User user = userService.getById(id);
+            return Result.success(user);
+        } catch (Exception e) {
+            return Result.error("查询失败：" + e.getMessage());
+        }
+    }
+
+    @PutMapping("/update")
+    public Result update(@RequestBody User user) {
+        try {
+            int result = userService.update(user);
+            return Result.success(result);
+        } catch (Exception e) {
+            return Result.error("更新失败：" + e.getMessage());
+        }
+    }
+
+    @DeleteMapping("/{id}")
+    public Result delete(@PathVariable Integer id) {
+        try {
+            int result = userService.delete(id);
+            return Result.success(result);
+        } catch (Exception e) {
+            return Result.error("删除失败：" + e.getMessage());
+        }
+    }
+}
+
+===== 文件: D:\IDEAproject\MBplatform\src\platform\entity\Category.java =====
+package platform.entity;
+
+public class Category {
+    private Integer id;
+    private String name;
+
+    public Category() {
+    }
+
+    public Category(Integer id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+}
+
+===== 文件: D:\IDEAproject\MBplatform\src\platform\entity\Collect.java =====
+package platform.entity;
+
+public class Collect {
+    private Integer id;
+    private Integer userId;
+    private Integer mbId;
+    private String createTime;
+
+    public Collect() {
+    }
+
+    public Collect(Integer id, Integer userId, Integer mbId, String createTime) {
+        this.id = id;
+        this.userId = userId;
+        this.mbId = mbId;
+        this.createTime = createTime;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public Integer getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Integer userId) {
+        this.userId = userId;
+    }
+
+    public Integer getMbId() {
+        return mbId;
+    }
+
+    public void setMbId(Integer mbId) {
+        this.mbId = mbId;
+    }
+
+    public String getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(String createTime) {
+        this.createTime = createTime;
+    }
+}
+
+===== 文件: D:\IDEAproject\MBplatform\src\platform\entity\Comment.java =====
+package platform.entity;
+
+public class Comment {
+    private Integer id;
+    private Integer userId;
+    private Integer noteId;
+    private String content;
+    private String createTime;
+    private String nickname;
+
+    public String getUserAvatar() {
+        return UserAvatar;
+    }
+
+    public void setUserAvatar(String userAvatar) {
+        UserAvatar = userAvatar;
+    }
+
+    private String UserAvatar;
+
+    public String getNickname() { return nickname; }
+    public void setNickname(String nickname) { this.nickname = nickname; }
+
+
+    public Comment() {
+    }
+
+    public Comment(Integer id, Integer userId, Integer noteId, String content, String createTime) {
+        this.id = id;
+        this.userId = userId;
+        this.noteId = noteId;
+        this.content = content;
+        this.createTime = createTime;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public Integer getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Integer userId) {
+        this.userId = userId;
+    }
+
+    public Integer getNoteId() {
+        return noteId;
+    }
+
+    public void setNoteId(Integer noteId) {
+        this.noteId = noteId;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public String getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(String createTime) {
+        this.createTime = createTime;
+    }
+}
+
+===== 文件: D:\IDEAproject\MBplatform\src\platform\entity\Likes.java =====
+package platform.entity;
+
+public class Likes {
+    private Integer id;
+    private Integer userId;
+    private Integer noteId;
+    private String createTime;
+
+    public Likes() {
+    }
+
+    public Likes(Integer id, Integer userId, Integer noteId, String createTime) {
+        this.id = id;
+        this.userId = userId;
+        this.noteId = noteId;
+        this.createTime = createTime;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public Integer getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Integer userId) {
+        this.userId = userId;
+    }
+
+    public Integer getNoteId() {
+        return noteId;
+    }
+
+    public void setNoteId(Integer noteId) {
+        this.noteId = noteId;
+    }
+
+    public String getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(String createTime) {
+        this.createTime = createTime;
+    }
+}
+
+===== 文件: D:\IDEAproject\MBplatform\src\platform\entity\MovieBook.java =====
+package platform.entity;
+import com.fasterxml.jackson.annotation.JsonFormat;
+
+public class MovieBook {
+    private Integer id;
+    private Integer type;
+    private Integer categoryId;
+    private String title;
+    private String cover;
+    private String intro;
+    private Double score;
+    private Integer hot;
+    private Integer auditStatus;
+    private Integer applyUserId;
+
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    private String createTime;
+    
+    private String categoryName;
+    private Integer noteCount;
+
+    public MovieBook() {
+    }
+
+    public MovieBook(Integer id, Integer type, Integer categoryId, String title, String cover, String intro, Double score, Integer hot, Integer auditStatus, Integer applyUserId, String createTime) {
+        this.id = id;
+        this.type = type;
+        this.categoryId = categoryId;
+        this.title = title;
+        this.cover = cover;
+        this.intro = intro;
+        this.score = score;
+        this.hot = hot;
+        this.auditStatus = auditStatus;
+        this.applyUserId = applyUserId;
+        this.createTime = createTime;
+    }
+    
+    public String getCategoryName() {
+        return categoryName;
+    }
+
+    public void setCategoryName(String categoryName) {
+        this.categoryName = categoryName;
+    }
+
+    public Integer getNoteCount() {
+        return noteCount;
+    }
+
+    public void setNoteCount(Integer noteCount) {
+        this.noteCount = noteCount;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public Integer getType() {
+        return type;
+    }
+
+    public void setType(Integer type) {
+        this.type = type;
+    }
+
+    public Integer getCategoryId() {
+        return categoryId;
+    }
+
+    public void setCategoryId(Integer categoryId) {
+        this.categoryId = categoryId;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getCover() {
+        return cover;
+    }
+
+    public void setCover(String cover) {
+        this.cover = cover;
+    }
+
+    public String getIntro() {
+        return intro;
+    }
+
+    public void setIntro(String intro) {
+        this.intro = intro;
+    }
+
+    public Double getScore() {
+        return score;
+    }
+
+    public void setScore(Double score) {
+        this.score = score;
+    }
+
+    public Integer getHot() {
+        return hot;
+    }
+
+    public void setHot(Integer hot) {
+        this.hot = hot;
+    }
+
+    public Integer getAuditStatus() {
+        return auditStatus;
+    }
+
+    public void setAuditStatus(Integer auditStatus) {
+        this.auditStatus = auditStatus;
+    }
+
+    public Integer getApplyUserId() {
+        return applyUserId;
+    }
+
+    public void setApplyUserId(Integer applyUserId) {
+        this.applyUserId = applyUserId;
+    }
+
+    public String getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(String createTime) {
+        this.createTime = createTime;
+    }
+}
+
+===== 文件: D:\IDEAproject\MBplatform\src\platform\entity\Note.java =====
+package platform.entity;
+
+public class Note {
+    private Integer id;
+    private Integer userId;
+    private Integer mbId;
+    private String content;
+
+    private Integer star;
+    private String img;
+    private String createTime;
+
+    private String nickname;
+    private String UserAvatar;
+
+    public String getUserAvatar() {
+        return UserAvatar;
+    }
+
+    public void setUserAvatar(String UserAvatar) {
+        this.UserAvatar = UserAvatar;
+    }
+
+    public String getNickname() {
+        return nickname;
+    }
+
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
+    }
+
+
+
+    public Note() {
+    }
+
+    public Note(Integer id, Integer userId, Integer mbId, String content, Integer star, String img, String createTime) {
+        this.id = id;
+        this.userId = userId;
+        this.mbId = mbId;
+        this.content = content;
+        this.star = star;
+        this.img = img;
+        this.createTime = createTime;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public Integer getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Integer userId) {
+        this.userId = userId;
+    }
+
+    public Integer getMbId() {
+        return mbId;
+    }
+
+    public void setMbId(Integer mbId) {
+        this.mbId = mbId;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public Integer getStar() {
+        return star;
+    }
+
+    public void setStar(Integer star) {
+        this.star = star;
+    }
+
+    public String getImg() {
+        return img;
+    }
+
+    public void setImg(String img) {
+        this.img = img;
+    }
+
+    public String getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(String createTime) {
+        this.createTime = createTime;
+    }
+}
+
+===== 文件: D:\IDEAproject\MBplatform\src\platform\entity\User.java =====
+package platform.entity;
+
+public class User {
+    private Integer id;
+    private String username;
+    private String password;
+    private String nickname;
+    private String avatar;
+    private Integer role;
+    private String createTime;
+
+    public User() {
+    }
+
+    public User(Integer id, String username, String password, String nickname, String avatar, Integer role, String createTime) {
+        this.id = id;
+        this.username = username;
+        this.password = password;
+        this.nickname = nickname;
+        this.avatar = avatar;
+        this.role = role;
+        this.createTime = createTime;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getNickname() {
+        return nickname;
+    }
+
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
+    }
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
+    }
+
+    public Integer getRole() {
+        return role;
+    }
+
+    public void setRole(Integer role) {
+        this.role = role;
+    }
+
+    public String getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(String createTime) {
+        this.createTime = createTime;
+    }
+}
+
+===== 文件: D:\IDEAproject\MBplatform\src\platform\mapper\CategoryMapper.java =====
+package platform.mapper;
+
+import platform.entity.Category;
+import org.apache.ibatis.annotations.Mapper;
+
+import java.util.List;
+
+
+public interface CategoryMapper {
+    int insert(Category category);
+    Category selectById(Integer id);
+    List<Category> selectAll();
+    int update(Category category);
+    int delete(Integer id);
+}
+
+===== 文件: D:\IDEAproject\MBplatform\src\platform\mapper\CollectMapper.java =====
+package platform.mapper;
+
+import platform.entity.Collect;
+import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
+
+
+public interface CollectMapper {
+    int insert(Collect collect);
+    Collect selectById(Integer id);
+    Collect selectByUserMb(@Param("userId") Integer userId, @Param("mbId") Integer mbId);
+    List<Collect> selectByUserId(@Param("userId") Integer userId);
+    List<Collect> selectByMbId(@Param("mbId") Integer mbId);
+    int delete(Integer id);
+    int deleteByUserMb(@Param("userId") Integer userId, @Param("mbId") Integer mbId);
+}
+
+===== 文件: D:\IDEAproject\MBplatform\src\platform\mapper\CommentMapper.java =====
+package platform.mapper;
+
+import platform.entity.Comment;
+import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
+
+
+public interface CommentMapper {
+    int insert(Comment comment);
+    Comment selectById(Integer id);
+    List<Comment> selectByUserId(@Param("userId") Integer userId);
+    List<Comment> selectByNoteId(@Param("noteId") Integer noteId);
+    int update(Comment comment);
+    int delete(Integer id);
+    int deleteByNoteId(@Param("noteId") Integer noteId);
+}
+
+===== 文件: D:\IDEAproject\MBplatform\src\platform\mapper\LikesMapper.java =====
+package platform.mapper;
+
+import platform.entity.Likes;
+import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
+
+
+public interface LikesMapper {
+    int insert(Likes likes);
+    Likes selectById(Integer id);
+    Likes selectByUserNote(@Param("userId") Integer userId, @Param("noteId") Integer noteId);
+    List<Likes> selectByUserId(@Param("userId") Integer userId);
+    List<Likes> selectByNoteId(@Param("noteId") Integer noteId);
+    int delete(Integer id);
+    int deleteByUserNote(@Param("userId") Integer userId, @Param("noteId") Integer noteId);
+    int deleteByNoteId(@Param("noteId") Integer noteId);
+}
+
+===== 文件: D:\IDEAproject\MBplatform\src\platform\mapper\MovieBookMapper.java =====
+package platform.mapper;
+
+import platform.entity.MovieBook;
+import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
+
+
+public interface MovieBookMapper {
+    int insert(MovieBook movieBook);
+    MovieBook selectById(Integer id);
+    List<MovieBook> selectByType(@Param("type") Integer type);
+    List<MovieBook> selectByCategory(@Param("categoryId") Integer categoryId);
+    List<MovieBook> selectByAuditStatus(@Param("auditStatus") Integer auditStatus);
+    List<MovieBook> searchByTitle(@Param("title") String title);
+    List<MovieBook> selectHot(@Param("limit") Integer limit);
+    int update(MovieBook movieBook);
+    int delete(Integer id);
+    int updateAuditStatus(@Param("id") Integer id, @Param("status") Integer status);
+    int updateHot(@Param("id") Integer id, @Param("hot") Integer hot);
+    int updateScore(@Param("id") Integer id, @Param("score") Double score);
+
+    // 重新平衡计算该作品的最新平均星级(Score)和最新多维融合热度值(Hot)
+    int recalculateScoreAndHot(@Param("id") Integer id);
+    
+    List<MovieBook> searchByTitleWithProc(@Param("keyword") String keyword);
+    List<MovieBook> selectHotWithProc(@Param("limit") Integer limit);
+    int auditPassWithProc(@Param("id") Integer id);
+    int auditRejectWithProc(@Param("id") Integer id);
+    
+    List<MovieBook> selectAllApproved();
+    MovieBook selectDetailById(@Param("id") Integer id);
+    List<MovieBook> selectAllDetail();
+    // 在您的 platform.mapper.MovieBookMapper 接口类中添加如下签名：
+    java.util.Map<String, Object> selectStatsOverview();
+}
+
+===== 文件: D:\IDEAproject\MBplatform\src\platform\mapper\NoteMapper.java =====
+package platform.mapper;
+
+import platform.entity.Note;
+import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
+
+
+public interface NoteMapper {
+    int insert(Note note);
+    Note selectById(Integer id);
+    List<Note> selectByUserId(@Param("userId") Integer userId);
+    List<Note> selectByMbId(@Param("mbId") Integer mbId);
+    int update(Note note);
+    int delete(Integer id);
+}
+
+===== 文件: D:\IDEAproject\MBplatform\src\platform\mapper\UserMapper.java =====
+package platform.mapper;
+
+import platform.entity.User;
+import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+
+
+public interface UserMapper {
+    int insert(User user);
+    User selectById(Integer id);
+    User selectByUsername(String username);
+    int update(User user);
+    int delete(Integer id);
+}
+
+===== 文件: D:\IDEAproject\MBplatform\src\platform\service\impl\CategoryImpl.java =====
+package platform.service.impl;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import platform.entity.Category;
+import platform.mapper.CategoryMapper;
+import platform.service.CategoryService;
+
+import java.util.List;
+
+@Service
+public class CategoryImpl implements CategoryService {
+
+    @Autowired
+    private CategoryMapper categoryMapper;
+
+    @Override
+    public int add(Category category) {
+        return categoryMapper.insert(category);
+    }
+
+    @Override
+    public Category getById(Integer id) {
+        return categoryMapper.selectById(id);
+    }
+
+    @Override
+    public List<Category> getAll() {
+        return categoryMapper.selectAll();
+    }
+
+    @Override
+    public int update(Category category) {
+        return categoryMapper.update(category);
+    }
+
+    @Override
+    public int delete(Integer id) {
+        return categoryMapper.delete(id);
+    }
+}
+
+===== 文件: D:\IDEAproject\MBplatform\src\platform\service\impl\CollectImpl.java =====
+package platform.service.impl;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import platform.entity.Collect;
+import platform.mapper.CollectMapper;
+import platform.mapper.MovieBookMapper;
+import platform.service.CollectService;
+
+import java.util.List;
+
+@Service
+public class CollectImpl implements CollectService {
+
+    @Autowired
+    private CollectMapper collectMapper;
+
+    @Autowired
+    private MovieBookMapper movieBookMapper;
+
+    @Override
+    @Transactional
+    public int add(Collect collect) {
+        int result = collectMapper.insert(collect);
+        if (collect.getMbId() != null) {
+            movieBookMapper.recalculateScoreAndHot(collect.getMbId());
+        }
+        return result;
+    }
+
+    @Override
+    @Transactional
+    public int delete(Integer id) {
+        Collect collect = collectMapper.selectById(id);
+        if (collect != null) {
+            int result = collectMapper.delete(id);
+            if (collect.getMbId() != null) {
+                movieBookMapper.recalculateScoreAndHot(collect.getMbId());
+            }
+            return result;
+        }
+        return 0;
+    }
+
+    @Override
+    @Transactional
+    public int cancel(Integer userId, Integer mbId) {
+        int result = collectMapper.deleteByUserMb(userId, mbId);
+        movieBookMapper.recalculateScoreAndHot(mbId);
+        return result;
+    }
+
+    @Override
+    public Collect getById(Integer id) {
+        return collectMapper.selectById(id);
+    }
+
+    @Override
+    public List<Collect> getByUserId(Integer userId) {
+        return collectMapper.selectByUserId(userId);
+    }
+
+    @Override
+    public List<Collect> getByMbId(Integer mbId) {
+        return collectMapper.selectByMbId(mbId);
+    }
+
+    @Override
+    public boolean isCollected(Integer userId, Integer mbId) {
+        Collect collect = collectMapper.selectByUserMb(userId, mbId);
+        return collect != null;
+    }
+}
+
+===== 文件: D:\IDEAproject\MBplatform\src\platform\service\impl\CommentImpl.java =====
+package platform.service.impl;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import platform.entity.Comment;
+import platform.entity.Note;
+import platform.mapper.CommentMapper;
+import platform.mapper.NoteMapper;
+import platform.mapper.MovieBookMapper;
+import platform.service.CommentService;
+
+import java.util.List;
+
+@Service
+public class CommentImpl implements CommentService {
+
+    @Autowired
+    private CommentMapper commentMapper;
+
+    @Autowired
+    private NoteMapper noteMapper;
+
+    @Autowired
+    private MovieBookMapper movieBookMapper;
+
+    @Override
+    @Transactional
+    public int add(Comment comment) {
+        int result = commentMapper.insert(comment);
+        Note note = noteMapper.selectById(comment.getNoteId());
+        if (note != null && note.getMbId() != null) {
+            movieBookMapper.recalculateScoreAndHot(note.getMbId());
+        }
+        return result;
+    }
+
+    @Override
+    @Transactional
+    public int update(Comment comment) {
+        return commentMapper.update(comment);
+    }
+
+    @Override
+    @Transactional
+    public int delete(Integer id) {
+        Comment comment = commentMapper.selectById(id);
+        if (comment != null) {
+            int result = commentMapper.delete(id);
+            Note note = noteMapper.selectById(comment.getNoteId());
+            if (note != null && note.getMbId() != null) {
+                movieBookMapper.recalculateScoreAndHot(note.getMbId());
+            }
+            return result;
+        }
+        return 0;
+    }
+
+    @Override
+    public Comment getById(Integer id) {
+        return commentMapper.selectById(id);
+    }
+
+    @Override
+    public List<Comment> getByUserId(Integer userId) {
+        return commentMapper.selectByUserId(userId);
+    }
+
+    @Override
+    public List<Comment> getByNoteId(Integer noteId) {
+        return commentMapper.selectByNoteId(noteId);
+    }
+}
+
+===== 文件: D:\IDEAproject\MBplatform\src\platform\service\impl\LikesImpl.java =====
+package platform.service.impl;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import platform.entity.Likes;
+import platform.entity.Note;
+import platform.mapper.LikesMapper;
+import platform.mapper.NoteMapper;
+import platform.mapper.MovieBookMapper;
+import platform.service.LikesService;
+
+import java.util.List;
+
+@Service
+public class LikesImpl implements LikesService {
+
+    @Autowired
+    private LikesMapper likesMapper;
+
+    @Autowired
+    private NoteMapper noteMapper;
+
+    @Autowired
+    private MovieBookMapper movieBookMapper;
+
+    @Override
+    @Transactional
+    public int add(Likes likes) {
+        int result = likesMapper.insert(likes);
+        // 点赞时，获得关联的随笔 Note 实体，从而重置其所属作品的高亮热度
+        Note note = noteMapper.selectById(likes.getNoteId());
+        if (note != null && note.getMbId() != null) {
+            movieBookMapper.recalculateScoreAndHot(note.getMbId());
+        }
+        return result;
+    }
+
+    @Override
+    @Transactional
+    public int cancel(Integer userId, Integer noteId) {
+        int result = likesMapper.deleteByUserNote(userId, noteId);
+        Note note = noteMapper.selectById(noteId);
+        if (note != null && note.getMbId() != null) {
+            movieBookMapper.recalculateScoreAndHot(note.getMbId());
+        }
+        return result;
+    }
+
+    @Override
+    @Transactional
+    public int delete(Integer id) {
+        Likes likes = likesMapper.selectById(id);
+        if (likes != null) {
+            int result = likesMapper.delete(id);
+            Note note = noteMapper.selectById(likes.getNoteId());
+            if (note != null && note.getMbId() != null) {
+                movieBookMapper.recalculateScoreAndHot(note.getMbId());
+            }
+            return result;
+        }
+        return 0;
+    }
+
+    @Override
+    public Likes getById(Integer id) {
+        return likesMapper.selectById(id);
+    }
+
+    @Override
+    public List<Likes> getByUserId(Integer userId) {
+        return likesMapper.selectByUserId(userId);
+    }
+
+    @Override
+    public List<Likes> getByNoteId(Integer noteId) {
+        return likesMapper.selectByNoteId(noteId);
+    }
+
+    @Override
+    public boolean isLiked(Integer userId, Integer noteId) {
+        Likes likes = likesMapper.selectByUserNote(userId, noteId);
+        return likes != null;
+    }
+}
+
+===== 文件: D:\IDEAproject\MBplatform\src\platform\service\impl\MovieBookImpl.java =====
+package platform.service.impl;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import platform.entity.MovieBook;
+import platform.mapper.MovieBookMapper;
+import platform.service.MovieBookService;
+
+import java.util.List;
+
+@Service
+public class MovieBookImpl implements MovieBookService {
+
+    @Autowired
+    private MovieBookMapper movieBookMapper;
+
+    @Override
+    public int add(MovieBook movieBook) {
+        return movieBookMapper.insert(movieBook);
+    }
+
+    @Override
+    public MovieBook getById(Integer id) {
+        return movieBookMapper.selectById(id);
+    }
+
+    @Override
+    public List<MovieBook> getByType(Integer type) {
+        return movieBookMapper.selectByType(type);
+    }
+
+    @Override
+    public List<MovieBook> getByCategory(Integer categoryId) {
+        return movieBookMapper.selectByCategory(categoryId);
+    }
+
+    @Override
+    public List<MovieBook> getByAuditStatus(Integer auditStatus) {
+        return movieBookMapper.selectByAuditStatus(auditStatus);
+    }
+
+    @Override
+    public List<MovieBook> search(String title) {
+        return movieBookMapper.searchByTitle(title);
+    }
+
+    @Override
+    public List<MovieBook> getHot(Integer limit) {
+        return movieBookMapper.selectHot(limit);
+    }
+
+    @Override
+    public int update(MovieBook movieBook) {
+        return movieBookMapper.update(movieBook);
+    }
+
+    @Override
+    public int delete(Integer id) {
+        return movieBookMapper.delete(id);
+    }
+
+    @Override
+    public int auditPass(Integer id) {
+        return movieBookMapper.updateAuditStatus(id, 1);
+    }
+
+    @Override
+    public int auditReject(Integer id) {
+        return movieBookMapper.updateAuditStatus(id, 2);
+    }
+
+    @Override
+    public List<MovieBook> searchWithProc(String keyword) {
+        return movieBookMapper.searchByTitleWithProc(keyword);
+    }
+
+    @Override
+    public List<MovieBook> getHotWithProc(Integer limit) {
+        return movieBookMapper.selectHotWithProc(limit);
+    }
+
+    @Override
+    public int auditPassWithProc(Integer id) {
+        return movieBookMapper.auditPassWithProc(id);
+    }
+
+    @Override
+    public int auditRejectWithProc(Integer id) {
+        return movieBookMapper.auditRejectWithProc(id);
+    }
+
+    @Override
+    public List<MovieBook> getAllApproved() {
+        return movieBookMapper.selectAllApproved();
+    }
+
+    @Override
+    public MovieBook getDetailById(Integer id) {
+        return movieBookMapper.selectDetailById(id);
+    }
+
+    @Override
+    public List<MovieBook> getAllDetail() {
+        return movieBookMapper.selectAllDetail();
+    }
+
+
+    // 在 platform.service.impl 对应的实现类中重写该接口：
+    @Override
+    public java.util.Map<String, Object> getStatsOverview() {
+        return movieBookMapper.selectStatsOverview();
+    }
+
+    @Override
+    public int recalculateScoreAndHot(Integer id) {
+        return movieBookMapper.recalculateScoreAndHot(id);
+    }
+
+}
+
+===== 文件: D:\IDEAproject\MBplatform\src\platform\service\impl\NoteImpl.java =====
+package platform.service.impl;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import platform.entity.Note;
+import platform.mapper.NoteMapper;
+import platform.mapper.CommentMapper;
+import platform.mapper.LikesMapper;
+import platform.mapper.MovieBookMapper;
+import platform.service.NoteService;
+
+import java.util.List;
+
+@Service
+public class NoteImpl implements NoteService {
+
+    @Autowired
+    private NoteMapper noteMapper;
+
+    @Autowired
+    private CommentMapper commentMapper;
+
+    @Autowired
+    private LikesMapper likesMapper;
+
+    @Autowired
+    private MovieBookMapper movieBookMapper;
+
+    @Override
+    @Transactional // 开启事务
+    public int add(Note note) {
+        int result = noteMapper.insert(note);
+        if (note.getMbId() != null) {
+            movieBookMapper.recalculateScoreAndHot(note.getMbId());
+        }
+        return result;
+    }
+
+    @Override
+    public Note getById(Integer id) {
+        return noteMapper.selectById(id);
+    }
+
+    @Override
+    public List<Note> getByUserId(Integer userId) {
+        return noteMapper.selectByUserId(userId);
+    }
+
+    @Override
+    public List<Note> getByMbId(Integer mbId) {
+        return noteMapper.selectByMbId(mbId);
+    }
+
+    @Override
+    @Transactional
+    public int update(Note note) {
+        int result = noteMapper.update(note);
+        if (note.getMbId() != null) {
+            movieBookMapper.recalculateScoreAndHot(note.getMbId());
+        }
+        return result;
+    }
+
+    @Override
+    @Transactional // 💡 卓越核心：完美断绝关联点赞及随笔评，完美级联熔毁并实时重算影视权重
+    public int delete(Integer id) {
+        Note note = noteMapper.selectById(id);
+        if (note == null) return 0;
+
+        Integer mbId = note.getMbId();
+
+        // 1. 先安全物理拆除该文章的所有点赞关联记录
+        likesMapper.deleteByNoteId(id);
+
+        // 2. 安全删除该文章所有附属留言论记录
+        commentMapper.deleteByNoteId(id);
+
+        // 3. 扫尾清空文章本身，此时已没有任何外键冲突，100% 删除成功！
+        int result = noteMapper.delete(id);
+
+        // 4. 重算该书本热度与评分
+        if (mbId != null) {
+            movieBookMapper.recalculateScoreAndHot(mbId);
+        }
+
+        return result;
+    }
+
+
+}
+
+===== 文件: D:\IDEAproject\MBplatform\src\platform\service\impl\UserImpl.java =====
+package platform.service.impl;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import platform.entity.User;
+import platform.mapper.UserMapper;
+import platform.service.UserService;
+
+@Service
+public class UserImpl implements UserService {
+
+    @Autowired
+    private UserMapper userMapper;
+
+    @Override
+    public User register(User user) {
+        userMapper.insert(user);
+        return userMapper.selectByUsername(user.getUsername());
+    }
+
+    @Override
+    public User login(String username, String password) {
+        User user = userMapper.selectByUsername(username);
+        if (user != null && user.getPassword().equals(password)) {
+            return user;
+        }
+        return null;
+    }
+
+    @Override
+    public User getById(Integer id) {
+        return userMapper.selectById(id);
+    }
+
+    @Override
+    public int update(User user) {
+        return userMapper.update(user);
+    }
+
+    @Override
+    public int delete(Integer id) {
+        return userMapper.delete(id);
+    }
+}
+
+===== 文件: D:\IDEAproject\MBplatform\src\platform\service\CategoryService.java =====
+package platform.service;
+
+import platform.entity.Category;
+
+import java.util.List;
+
+public interface CategoryService {
+    int add(Category category);
+    Category getById(Integer id);
+    List<Category> getAll();
+    int update(Category category);
+    int delete(Integer id);
+}
+
+===== 文件: D:\IDEAproject\MBplatform\src\platform\service\CollectService.java =====
+package platform.service;
+
+import platform.entity.Collect;
+
+import java.util.List;
+
+public interface CollectService {
+    int add(Collect collect);
+    int delete(Integer id);
+    int cancel(Integer userId, Integer mbId);
+    Collect getById(Integer id);
+    List<Collect> getByUserId(Integer userId);
+    List<Collect> getByMbId(Integer mbId);
+    boolean isCollected(Integer userId, Integer mbId);
+}
+
+===== 文件: D:\IDEAproject\MBplatform\src\platform\service\CommentService.java =====
+package platform.service;
+
+import platform.entity.Comment;
+
+import java.util.List;
+
+public interface CommentService {
+    int add(Comment comment);
+    Comment getById(Integer id);
+    List<Comment> getByUserId(Integer userId);
+    List<Comment> getByNoteId(Integer noteId);
+    int update(Comment comment);
+    int delete(Integer id);
+}
+
+===== 文件: D:\IDEAproject\MBplatform\src\platform\service\LikesService.java =====
+package platform.service;
+
+import platform.entity.Likes;
+
+import java.util.List;
+
+public interface LikesService {
+    int add(Likes likes);
+    int delete(Integer id);
+    int cancel(Integer userId, Integer noteId);
+    Likes getById(Integer id);
+    List<Likes> getByUserId(Integer userId);
+    List<Likes> getByNoteId(Integer noteId);
+    boolean isLiked(Integer userId, Integer noteId);
+}
+
+===== 文件: D:\IDEAproject\MBplatform\src\platform\service\MovieBookService.java =====
+package platform.service;
+
+import platform.entity.MovieBook;
+
+import java.util.List;
+
+public interface MovieBookService {
+    int add(MovieBook movieBook);
+    MovieBook getById(Integer id);
+    List<MovieBook> getByType(Integer type);
+    List<MovieBook> getByCategory(Integer categoryId);
+    List<MovieBook> getByAuditStatus(Integer auditStatus);
+    List<MovieBook> search(String title);
+    List<MovieBook> getHot(Integer limit);
+    int update(MovieBook movieBook);
+    int delete(Integer id);
+    int auditPass(Integer id);
+    int auditReject(Integer id);
+    
+    List<MovieBook> searchWithProc(String keyword);
+    List<MovieBook> getHotWithProc(Integer limit);
+    int auditPassWithProc(Integer id);
+    int auditRejectWithProc(Integer id);
+    
+    List<MovieBook> getAllApproved();
+    MovieBook getDetailById(Integer id);
+    List<MovieBook> getAllDetail();
+
+    // 在您的 platform.service.MovieBookService 接口类中添加如下签名：
+    java.util.Map<String, Object> getStatsOverview();
+
+    int recalculateScoreAndHot(Integer id);
+}
+
+===== 文件: D:\IDEAproject\MBplatform\src\platform\service\NoteService.java =====
+package platform.service;
+
+import platform.entity.Note;
+
+import java.util.List;
+
+public interface NoteService {
+    int add(Note note);
+    Note getById(Integer id);
+    List<Note> getByUserId(Integer userId);
+    List<Note> getByMbId(Integer mbId);
+    int update(Note note);
+    int delete(Integer id);
+}
+
+===== 文件: D:\IDEAproject\MBplatform\src\platform\service\UserService.java =====
+package platform.service;
+
+import platform.entity.User;
+
+public interface UserService {
+    User register(User user);
+    User login(String username, String password);
+    User getById(Integer id);
+    int update(User user);
+    int delete(Integer id);
+}
+
+===== 文件: D:\IDEAproject\MBplatform\src\platform\util\Result.java =====
+package platform.util;
+
+public class Result {
+    private Integer code;
+    private String msg;
+    private Object data;
+
+    // 成功无数据
+    public static Result success(){
+        Result r = new Result();
+        r.setCode(200);
+        r.setMsg("操作成功");
+        return r;
+    }
+    // 成功带数据
+    public static Result success(Object data){
+        Result r = success();
+        r.setData(data);
+        return r;
+    }
+    // 失败
+    public static Result error(String msg){
+        Result r = new Result();
+        r.setCode(500);
+        r.setMsg(msg);
+        return r;
+    }
+
+    // getter setter
+    public Integer getCode() {
+        return code;
+    }
+    public void setCode(Integer code) {
+        this.code = code;
+    }
+    public String getMsg() {
+        return msg;
+    }
+    public void setMsg(String msg) {
+        this.msg = msg;
+    }
+    public Object getData() {
+        return data;
+    }
+    public void setData(Object data) {
+        this.data = data;
+    }
+}
+
+===== 文件: D:\IDEAproject\MBplatform\src\platform\Main.java =====
+package platform;
+
+import org.mybatis.spring.annotation.MapperScan;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@MapperScan("platform.mapper")
+@SpringBootApplication
+public class Main {
+    public static void main(String[] args) {
+        SpringApplication.run(Main.class, args);
+    }
+}
+
+
+===== 文件: D:\IDEAproject\MBplatform\pom.xml =====
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.example</groupId>
+    <artifactId>MBplatform</artifactId>
+    <version>1.0-SNAPSHOT</version>
+
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.7.18</version>
+        <relativePath/>
+    </parent>
+
+    <properties>
+        <java.version>1.8</java.version>
+        <mybatis.spring.boot.version>2.3.2</mybatis.spring.boot.version>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.mybatis.spring.boot</groupId>
+            <artifactId>mybatis-spring-boot-starter</artifactId>
+            <version>${mybatis.spring.boot.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>8.0.33</version>
+            <scope>runtime</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <optional>true</optional>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <resources>
+            <resource>
+                <directory>res</directory>
+                <includes>
+                    <include>**/*.yml</include>
+                    <include>**/*.xml</include>
+                </includes>
+            </resource>
+        </resources>
+        
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <mainClass>platform.Main</mainClass>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>

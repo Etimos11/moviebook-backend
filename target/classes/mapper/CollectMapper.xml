@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="platform.mapper.CollectMapper">
+    <resultMap id="CollectMap" type="platform.entity.Collect">
+        <id column="id" property="id"/>
+        <result column="user_id" property="userId"/>
+        <result column="mb_id" property="mbId"/>
+        <result column="create_time" property="createTime"/>
+    </resultMap>
+
+    <insert id="insert" parameterType="platform.entity.Collect">
+        INSERT INTO collect (user_id, mb_id, create_time)
+        VALUES (#{userId}, #{mbId}, NOW())
+    </insert>
+
+    <select id="selectById" resultMap="CollectMap">
+        SELECT * FROM collect WHERE id = #{id}
+    </select>
+
+    <select id="selectByUserMb" resultMap="CollectMap">
+        SELECT * FROM collect WHERE user_id = #{userId} AND mb_id = #{mbId}
+    </select>
+
+    <select id="selectByUserId" resultMap="CollectMap">
+        SELECT * FROM collect WHERE user_id = #{userId}
+    </select>
+
+    <select id="selectByMbId" resultMap="CollectMap">
+        SELECT * FROM collect WHERE mb_id = #{mbId}
+    </select>
+
+    <delete id="delete">
+        DELETE FROM collect WHERE id = #{id}
+    </delete>
+
+    <delete id="deleteByUserMb">
+        DELETE FROM collect WHERE user_id = #{userId} AND mb_id = #{mbId}
+    </delete>
+</mapper>
