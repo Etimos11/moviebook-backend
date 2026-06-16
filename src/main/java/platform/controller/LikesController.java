@@ -10,7 +10,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/likes")
-@CrossOrigin
+
 public class LikesController {
 
     @Autowired

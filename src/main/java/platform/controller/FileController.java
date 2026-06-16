@@ -14,7 +14,7 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/file")
-@CrossOrigin
+
 public class FileController {
 
     // 读取配置文件中的路径，如果没有配置，默认用当前目录下的 upload

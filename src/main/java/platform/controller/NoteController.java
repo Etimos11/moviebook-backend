@@ -10,7 +10,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/note")
-@CrossOrigin
+
 public class NoteController {
 
     @Autowired

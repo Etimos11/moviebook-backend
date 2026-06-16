@@ -8,7 +8,7 @@ import platform.util.Result;
 
 @RestController
 @RequestMapping("/user")
-@CrossOrigin
+
 public class UserController {
 
     @Autowired

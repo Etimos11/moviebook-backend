@@ -10,7 +10,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/moviebook")
-@CrossOrigin
+
 public class MovieBookController {
 
     @Autowired

@@ -10,7 +10,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/stat")
-@CrossOrigin
+
 public class StatController {
 
     @Autowired

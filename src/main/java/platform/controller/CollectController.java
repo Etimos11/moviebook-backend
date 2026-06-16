@@ -10,7 +10,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/collect")
-@CrossOrigin
 public class CollectController {
 
     @Autowired

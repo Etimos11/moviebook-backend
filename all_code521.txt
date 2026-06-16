@@ -5,460 +5,27 @@
     "java.configuration.updateBuildConfiguration": "automatic"
 }
 
-===== 文件: D:\IDEAproject\MBplatform\res\mapper\CategoryMapper.xml =====
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="platform.mapper.CategoryMapper">
-    <resultMap id="CategoryMap" type="platform.entity.Category">
-        <id column="id" property="id"/>
-        <result column="name" property="name"/>
-    </resultMap>
-
-    <insert id="insert" parameterType="platform.entity.Category">
-        INSERT INTO category (name) VALUES (#{name})
-    </insert>
-
-    <select id="selectById" resultMap="CategoryMap">
-        SELECT * FROM category WHERE id = #{id}
-    </select>
-
-    <select id="selectAll" resultMap="CategoryMap">
-        SELECT * FROM category
-    </select>
-
-    <update id="update" parameterType="platform.entity.Category">
-        UPDATE category SET name = #{name} WHERE id = #{id}
-    </update>
-
-    <delete id="delete">
-        DELETE FROM category WHERE id = #{id}
-    </delete>
-</mapper>
-
-===== 文件: D:\IDEAproject\MBplatform\res\mapper\CollectMapper.xml =====
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="platform.mapper.CollectMapper">
-    <resultMap id="CollectMap" type="platform.entity.Collect">
-        <id column="id" property="id"/>
-        <result column="user_id" property="userId"/>
-        <result column="mb_id" property="mbId"/>
-        <result column="create_time" property="createTime"/>
-    </resultMap>
-
-    <insert id="insert" parameterType="platform.entity.Collect">
-        INSERT INTO collect (user_id, mb_id, create_time)
-        VALUES (#{userId}, #{mbId}, NOW())
-    </insert>
-
-    <select id="selectById" resultMap="CollectMap">
-        SELECT * FROM collect WHERE id = #{id}
-    </select>
-
-    <select id="selectByUserMb" resultMap="CollectMap">
-        SELECT * FROM collect WHERE user_id = #{userId} AND mb_id = #{mbId}
-    </select>
-
-    <select id="selectByUserId" resultMap="CollectMap">
-        SELECT * FROM collect WHERE user_id = #{userId}
-    </select>
-
-    <select id="selectByMbId" resultMap="CollectMap">
-        SELECT * FROM collect WHERE mb_id = #{mbId}
-    </select>
-
-    <delete id="delete">
-        DELETE FROM collect WHERE id = #{id}
-    </delete>
-
-    <delete id="deleteByUserMb">
-        DELETE FROM collect WHERE user_id = #{userId} AND mb_id = #{mbId}
-    </delete>
-</mapper>
-
-===== 文件: D:\IDEAproject\MBplatform\res\mapper\CommentMapper.xml =====
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="platform.mapper.CommentMapper">
-    <resultMap id="CommentMap" type="platform.entity.Comment">
-        <id column="id" property="id"/>
-        <result column="user_id" property="userId"/>
-        <result column="note_id" property="noteId"/>
-        <result column="content" property="content"/>
-        <result column="create_time" property="createTime"/>
-        <result column="avatar" property="userAvatar"/>
-    </resultMap>
-
-    <insert id="insert" parameterType="platform.entity.Comment">
-        INSERT INTO comment (user_id, note_id, content, create_time)
-        VALUES (#{userId}, #{noteId}, #{content}, NOW())
-    </insert>
-
-    <select id="selectById" resultMap="CommentMap">
-        SELECT * FROM comment WHERE id = #{id}
-    </select>
-
-    <select id="selectByUserId" resultMap="CommentMap">
-        SELECT * FROM comment WHERE user_id = #{userId}
-    </select>
-
-    <select id="selectByNoteId" resultMap="CommentMap">
-        SELECT
-        c.id,
-        c.user_id,
-        c.note_id,
-        c.content,
-        c.create_time,
-        u.nickname,
-        u.avatar
-        FROM comment c
-        LEFT JOIN user u ON c.user_id = u.id
-        WHERE c.note_id = #{noteId}
-        ORDER BY c.create_time DESC
-    </select>
-
-    <update id="update" parameterType="platform.entity.Comment">
-        UPDATE comment
-        SET content = #{content}
-        WHERE id = #{id}
-    </update>
-
-    <delete id="delete">
-        DELETE FROM comment WHERE id = #{id}
-    </delete>
-
-    <delete id="deleteByNoteId">
-        DELETE FROM comment WHERE note_id = #{noteId}
-    </delete>
-
-</mapper>
-
-===== 文件: D:\IDEAproject\MBplatform\res\mapper\LikesMapper.xml =====
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="platform.mapper.LikesMapper">
-    <resultMap id="LikesMap" type="platform.entity.Likes">
-        <id column="id" property="id"/>
-        <result column="user_id" property="userId"/>
-        <result column="note_id" property="noteId"/>
-        <result column="create_time" property="createTime"/>
-    </resultMap>
-
-    <insert id="insert" parameterType="platform.entity.Likes">
-        INSERT INTO likes (user_id, note_id, create_time)
-        VALUES (#{userId}, #{noteId}, NOW())
-    </insert>
-
-    <select id="selectById" resultMap="LikesMap">
-        SELECT * FROM likes WHERE id = #{id}
-    </select>
-
-    <select id="selectByUserNote" resultMap="LikesMap">
-        SELECT * FROM likes WHERE user_id = #{userId} AND note_id = #{noteId}
-    </select>
-
-    <select id="selectByUserId" resultMap="LikesMap">
-        SELECT * FROM likes WHERE user_id = #{userId}
-    </select>
-
-    <select id="selectByNoteId" resultMap="LikesMap">
-        SELECT * FROM likes WHERE note_id = #{noteId}
-    </select>
-
-    <delete id="delete">
-        DELETE FROM likes WHERE id = #{id}
-    </delete>
-
-    <delete id="deleteByUserNote">
-        DELETE FROM likes WHERE user_id = #{userId} AND note_id = #{noteId}
-    </delete>
-
-    <delete id="deleteByNoteId">
-        DELETE FROM likes WHERE note_id = #{noteId}
-    </delete>
-
-</mapper>
-
-===== 文件: D:\IDEAproject\MBplatform\res\mapper\MovieBookMapper.xml =====
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="platform.mapper.MovieBookMapper">
-    <resultMap id="MovieBookMap" type="platform.entity.MovieBook">
-        <id column="id" property="id"/>
-        <result column="type" property="type"/>
-        <result column="category_id" property="categoryId"/>
-        <result column="title" property="title"/>
-        <result column="cover" property="cover"/>
-        <result column="intro" property="intro"/>
-        <result column="score" property="score"/>
-        <result column="hot" property="hot"/>
-        <result column="audit_status" property="auditStatus"/>
-        <result column="apply_user_id" property="applyUserId"/>
-        <result column="create_time" property="createTime"/>
-    </resultMap>
-
-    <resultMap id="MovieBookDetailMap" type="platform.entity.MovieBook">
-        <id column="id" property="id"/>
-        <result column="type" property="type"/>
-        <result column="title" property="title"/>
-        <!-- 核心修复：在此处加回 cover 封面印记，确保通过 View 获取详情时封面存续 -->
-        <result column="cover" property="cover"/>
-        <result column="category_name" property="categoryName"/>
-        <result column="intro" property="intro"/>
-        <result column="score" property="score"/>
-        <result column="hot" property="hot"/>
-        <result column="note_count" property="noteCount"/>
-    </resultMap>
-
-    <insert id="insert" parameterType="platform.entity.MovieBook">
-        INSERT INTO movie_book (type, category_id, title, cover, intro, score, hot, audit_status, apply_user_id, create_time)
-        VALUES (#{type}, #{categoryId}, #{title}, #{cover}, #{intro}, #{score}, IFNULL(#{hot},0), #{auditStatus}, #{applyUserId}, NOW())
-    </insert>
-
-    <select id="selectById" resultMap="MovieBookMap">
-        SELECT * FROM movie_book WHERE id = #{id}
-    </select>
-
-    <select id="selectByType" resultMap="MovieBookMap">
-        SELECT * FROM movie_book WHERE type = #{type} AND audit_status = 1
-    </select>
-
-    <select id="selectByCategory" resultMap="MovieBookMap">
-        SELECT * FROM movie_book WHERE category_id = #{categoryId} AND audit_status = 1
-    </select>
-
-    <select id="selectByAuditStatus" resultMap="MovieBookMap">
-        SELECT * FROM movie_book WHERE audit_status = #{auditStatus}
-    </select>
-
-    <select id="searchByTitle" resultMap="MovieBookMap">
-        SELECT * FROM movie_book WHERE title LIKE CONCAT('%', #{title}, '%') AND audit_status = 1
-    </select>
-
-    <select id="selectHot" resultMap="MovieBookMap">
-        SELECT * FROM movie_book WHERE audit_status = 1 ORDER BY hot DESC LIMIT #{limit}
-    </select>
-
-    <select id="searchByTitleWithProc" resultMap="MovieBookMap">
-        CALL proc_search_movie_book(#{keyword})
-    </select>
-
-    <select id="selectHotWithProc" resultMap="MovieBookMap">
-        CALL proc_get_hot_movie_book(#{limit})
-    </select>
-
-    <update id="auditPassWithProc">
-        CALL proc_audit_pass(#{id})
-    </update>
-
-    <update id="auditRejectWithProc">
-        CALL proc_audit_reject(#{id})
-    </update>
-
-    <select id="selectAllApproved" resultMap="MovieBookMap">
-        SELECT * FROM view_approved_movie_book
-    </select>
-
-    <select id="selectDetailById" resultMap="MovieBookDetailMap">
-        SELECT * FROM view_movie_book_detail WHERE id = #{id}
-    </select>
-
-    <select id="selectAllDetail" resultMap="MovieBookDetailMap">
-        SELECT * FROM view_movie_book_detail
-    </select>
-
-    <update id="update" parameterType="platform.entity.MovieBook">
-        UPDATE movie_book
-        SET type = #{type}, category_id = #{categoryId}, title = #{title},
-        cover = #{cover}, intro = #{intro}, score = #{score}, hot = #{hot},
-        audit_status = #{auditStatus}, apply_user_id = #{applyUserId}
-        WHERE id = #{id}
-    </update>
-
-    <delete id="delete">
-        DELETE FROM movie_book WHERE id = #{id}
-    </delete>
-
-    <update id="updateAuditStatus">
-        UPDATE movie_book SET audit_status = #{status} WHERE id = #{id}
-    </update>
-
-    <update id="updateHot">
-        UPDATE movie_book SET hot = #{hot} WHERE id = #{id}
-    </update>
-
-    <update id="updateScore">
-        UPDATE movie_book SET score = #{score} WHERE id = #{id}
-    </update>
-
-    <!-- 调用统计存储过程 -->
-    <select id="selectStatsOverview" resultType="map" statementType="CALLABLE">
-        CALL proc_stat()
-    </select>
-
-    <!-- 实时重算引擎：将平均分与三大社交热度源（收藏/点赞/书评）完美融合更新 -->
-    <!-- 完美的实时重算引擎：将平均分与四大社交热度源（收藏/点赞/随笔/留言）融合更新 -->
-    <update id="recalculateScoreAndHot">
-        UPDATE movie_book mb
-        SET
-        mb.score = COALESCE(
-        (SELECT AVG(star) FROM note WHERE mb_id = #{id}),
-        0.0
-        ),
-        mb.hot = (
-        (SELECT COUNT(*) FROM collect WHERE mb_id = #{id})  +
-        (SELECT COUNT(*) FROM likes WHERE note_id IN (SELECT id FROM note WHERE mb_id = #{id}))  +
-        (SELECT COUNT(*) FROM note WHERE mb_id = #{id})  +
-        (SELECT COUNT(*) FROM comment WHERE note_id IN (SELECT id FROM note WHERE mb_id = #{id}))
-        )
-        WHERE mb.id = #{id}
-    </update>
-
-</mapper>
-
-===== 文件: D:\IDEAproject\MBplatform\res\mapper\NoteMapper.xml =====
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="platform.mapper.NoteMapper">
-    <resultMap id="NoteMap" type="platform.entity.Note">
-        <id column="id" property="id"/>
-        <result column="user_id" property="userId"/>
-        <result column="mb_id" property="mbId"/>
-        <result column="content" property="content"/>
-        <result column="star" property="star"/>
-        <result column="img" property="img"/>
-        <result column="create_time" property="createTime"/>
-        <result column="avatar" property="userAvatar"/>
-    </resultMap>
-
-    <insert id="insert" parameterType="platform.entity.Note">
-        INSERT INTO note (user_id, mb_id, content, star, img, create_time)
-        VALUES (#{userId}, #{mbId}, #{content}, #{star}, #{img}, NOW())
-    </insert>
-
-    <select id="selectById" resultMap="NoteMap">
-        SELECT * FROM note WHERE id = #{id}
-    </select>
-
-    <select id="selectByUserId" resultMap="NoteMap">
-        SELECT
-        n.id,
-        n.user_id,
-        n.mb_id,
-        n.content,
-        n.star,
-        n.img,
-        n.create_time,
-        u.nickname,
-        u.avatar
-        FROM note n
-        LEFT JOIN user u ON n.user_id = u.id
-        WHERE n.user_id = #{userId}
-        ORDER BY n.create_time DESC
-    </select>
-
-    <select id="selectByMbId" resultMap="NoteMap">
-        SELECT
-        n.id,
-        n.user_id,
-        n.mb_id,
-        n.content,
-        n.star,
-        n.img,
-        n.create_time,
-        u.nickname,
-        u.avatar
-        FROM note n
-        LEFT JOIN user u ON n.user_id = u.id
-        WHERE n.mb_id = #{mbId}
-        ORDER BY n.create_time DESC
-    </select>
-
-    <update id="update" parameterType="platform.entity.Note">
-        UPDATE note SET user_id = #{userId}, mb_id = #{mbId}, content = #{content}, star = #{star}, img = #{img}
-        WHERE id = #{id}
-    </update>
-
-    <delete id="delete">
-        DELETE FROM note WHERE id = #{id}
-    </delete>
-</mapper>
-
-===== 文件: D:\IDEAproject\MBplatform\res\mapper\UserMapper.xml =====
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="platform.mapper.UserMapper">
-    <resultMap id="UserMap" type="platform.entity.User">
-        <id column="id" property="id"/>
-        <result column="username" property="username"/>
-        <result column="password" property="password"/>
-        <result column="nickname" property="nickname"/>
-        <result column="avatar" property="avatar"/>
-        <result column="role" property="role"/>
-        <result column="create_time" property="createTime"/>
-    </resultMap>
-
-    <insert id="insert" parameterType="platform.entity.User">
-        INSERT INTO user (username, password, nickname, avatar, role, create_time)
-        VALUES (#{username}, #{password}, #{nickname}, #{avatar}, #{role}, NOW())
-    </insert>
-
-    <select id="selectById" resultMap="UserMap">
-        SELECT * FROM user WHERE id = #{id}
-    </select>
-
-    <select id="selectByUsername" resultMap="UserMap">
-        SELECT * FROM user WHERE username = #{username}
-    </select>
-
-    <update id="update" parameterType="platform.entity.User">
-        UPDATE user
-        <set>
-            <if test="username != null and username != ''">username = #{username},</if>
-            <if test="password != null and password != ''">password = #{password},</if>
-            <if test="nickname != null">nickname = #{nickname},</if>
-            <if test="avatar != null">avatar = #{avatar},</if>
-            <if test="role != null">role = #{role}</if>
-        </set>
-        WHERE id = #{id}
-    </update>
-
-    <delete id="delete">
-        DELETE FROM user WHERE id = #{id}
-    </delete>
-</mapper>
-
-===== 文件: D:\IDEAproject\MBplatform\res\application.yml =====
-server:
-  port: 8080
-
-spring:
-  servlet:
-    multipart:
-      enabled: true
-      max-file-size: 10MB
-      max-request-size: 20MB
-
-  datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/movie_note_platform?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
-    username: root
-    password: root
-
-mybatis:
-  mapper-locations: classpath:mapper/*.xml
-  type-aliases-package: platform.entity
-  configuration:
-    map-underscore-to-camel-case: true
-
-logging:
-  level:
-    platform.mapper: debug
-
-file:
-  upload-path: ./upload/
-
-===== 文件: D:\IDEAproject\MBplatform\src\platform\config\WebConfig.java =====
+===== 文件: D:\IDEAproject\MBplatform\src\main\java\platform\config\CorsConfig.java =====
+package platform.config;
+
+import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+
+@Configuration
+public class CorsConfig implements WebMvcConfigurer {
+    @Override
+    public void addCorsMappings(CorsRegistry registry) {
+        registry.addMapping("/**") // 允许所有路径
+                .allowedOriginPatterns("*") // 允许所有来源（最省事，生产环境可改为 Vercel 域名）
+                .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
+                .allowedHeaders("*")
+                .allowCredentials(true)
+                .maxAge(3600);
+    }
+}
+
+===== 文件: D:\IDEAproject\MBplatform\src\main\java\platform\config\WebConfig.java =====
 package platform.config;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -500,7 +67,7 @@ public class WebConfig implements WebMvcConfigurer {
     }
 }
 
-===== 文件: D:\IDEAproject\MBplatform\src\platform\controller\CategoryController.java =====
+===== 文件: D:\IDEAproject\MBplatform\src\main\java\platform\controller\CategoryController.java =====
 package platform.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -570,7 +137,7 @@ public class CategoryController {
     }
 }
 
-===== 文件: D:\IDEAproject\MBplatform\src\platform\controller\CollectController.java =====
+===== 文件: D:\IDEAproject\MBplatform\src\main\java\platform\controller\CollectController.java =====
 package platform.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -660,7 +227,7 @@ public class CollectController {
     }
 }
 
-===== 文件: D:\IDEAproject\MBplatform\src\platform\controller\CommentController.java =====
+===== 文件: D:\IDEAproject\MBplatform\src\main\java\platform\controller\CommentController.java =====
 package platform.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -740,7 +307,7 @@ public class CommentController {
     }
 }
 
-===== 文件: D:\IDEAproject\MBplatform\src\platform\controller\FileController.java =====
+===== 文件: D:\IDEAproject\MBplatform\src\main\java\platform\controller\FileController.java =====
 package platform.controller;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -805,7 +372,7 @@ public class FileController {
     }
 }
 
-===== 文件: D:\IDEAproject\MBplatform\src\platform\controller\LikesController.java =====
+===== 文件: D:\IDEAproject\MBplatform\src\main\java\platform\controller\LikesController.java =====
 package platform.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -895,7 +462,7 @@ public class LikesController {
     }
 }
 
-===== 文件: D:\IDEAproject\MBplatform\src\platform\controller\MovieBookController.java =====
+===== 文件: D:\IDEAproject\MBplatform\src\main\java\platform\controller\MovieBookController.java =====
 package platform.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -1095,7 +662,7 @@ public class MovieBookController {
     }
 }
 
-===== 文件: D:\IDEAproject\MBplatform\src\platform\controller\NoteController.java =====
+===== 文件: D:\IDEAproject\MBplatform\src\main\java\platform\controller\NoteController.java =====
 package platform.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -1175,7 +742,7 @@ public class NoteController {
     }
 }
 
-===== 文件: D:\IDEAproject\MBplatform\src\platform\controller\StatController.java =====
+===== 文件: D:\IDEAproject\MBplatform\src\main\java\platform\controller\StatController.java =====
 package platform.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -1183,7 +750,7 @@ import org.springframework.web.bind.annotation.*;
 import platform.service.CategoryService;
 import platform.service.MovieBookService;
 import platform.util.Result;
-import java.util.List;
+
 import java.util.Map;
 
 @RestController
@@ -1227,7 +794,7 @@ public class StatController {
     }
 }
 
-===== 文件: D:\IDEAproject\MBplatform\src\platform\controller\UserController.java =====
+===== 文件: D:\IDEAproject\MBplatform\src\main\java\platform\controller\UserController.java =====
 package platform.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -1299,7 +866,7 @@ public class UserController {
     }
 }
 
-===== 文件: D:\IDEAproject\MBplatform\src\platform\entity\Category.java =====
+===== 文件: D:\IDEAproject\MBplatform\src\main\java\platform\entity\Category.java =====
 package platform.entity;
 
 public class Category {
@@ -1331,7 +898,7 @@ public class Category {
     }
 }
 
-===== 文件: D:\IDEAproject\MBplatform\src\platform\entity\Collect.java =====
+===== 文件: D:\IDEAproject\MBplatform\src\main\java\platform\entity\Collect.java =====
 package platform.entity;
 
 public class Collect {
@@ -1383,7 +950,7 @@ public class Collect {
     }
 }
 
-===== 文件: D:\IDEAproject\MBplatform\src\platform\entity\Comment.java =====
+===== 文件: D:\IDEAproject\MBplatform\src\main\java\platform\entity\Comment.java =====
 package platform.entity;
 
 public class Comment {
@@ -1460,7 +1027,7 @@ public class Comment {
     }
 }
 
-===== 文件: D:\IDEAproject\MBplatform\src\platform\entity\Likes.java =====
+===== 文件: D:\IDEAproject\MBplatform\src\main\java\platform\entity\Likes.java =====
 package platform.entity;
 
 public class Likes {
@@ -1512,7 +1079,7 @@ public class Likes {
     }
 }
 
-===== 文件: D:\IDEAproject\MBplatform\src\platform\entity\MovieBook.java =====
+===== 文件: D:\IDEAproject\MBplatform\src\main\java\platform\entity\MovieBook.java =====
 package platform.entity;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
@@ -1656,7 +1223,7 @@ public class MovieBook {
     }
 }
 
-===== 文件: D:\IDEAproject\MBplatform\src\platform\entity\Note.java =====
+===== 文件: D:\IDEAproject\MBplatform\src\main\java\platform\entity\Note.java =====
 package platform.entity;
 
 public class Note {
@@ -1760,7 +1327,7 @@ public class Note {
     }
 }
 
-===== 文件: D:\IDEAproject\MBplatform\src\platform\entity\User.java =====
+===== 文件: D:\IDEAproject\MBplatform\src\main\java\platform\entity\User.java =====
 package platform.entity;
 
 public class User {
@@ -1842,11 +1409,10 @@ public class User {
     }
 }
 
-===== 文件: D:\IDEAproject\MBplatform\src\platform\mapper\CategoryMapper.java =====
+===== 文件: D:\IDEAproject\MBplatform\src\main\java\platform\mapper\CategoryMapper.java =====
 package platform.mapper;
 
 import platform.entity.Category;
-import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
 
@@ -1859,11 +1425,10 @@ public interface CategoryMapper {
     int delete(Integer id);
 }
 
-===== 文件: D:\IDEAproject\MBplatform\src\platform\mapper\CollectMapper.java =====
+===== 文件: D:\IDEAproject\MBplatform\src\main\java\platform\mapper\CollectMapper.java =====
 package platform.mapper;
 
 import platform.entity.Collect;
-import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -1879,11 +1444,10 @@ public interface CollectMapper {
     int deleteByUserMb(@Param("userId") Integer userId, @Param("mbId") Integer mbId);
 }
 
-===== 文件: D:\IDEAproject\MBplatform\src\platform\mapper\CommentMapper.java =====
+===== 文件: D:\IDEAproject\MBplatform\src\main\java\platform\mapper\CommentMapper.java =====
 package platform.mapper;
 
 import platform.entity.Comment;
-import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -1899,11 +1463,10 @@ public interface CommentMapper {
     int deleteByNoteId(@Param("noteId") Integer noteId);
 }
 
-===== 文件: D:\IDEAproject\MBplatform\src\platform\mapper\LikesMapper.java =====
+===== 文件: D:\IDEAproject\MBplatform\src\main\java\platform\mapper\LikesMapper.java =====
 package platform.mapper;
 
 import platform.entity.Likes;
-import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -1920,11 +1483,10 @@ public interface LikesMapper {
     int deleteByNoteId(@Param("noteId") Integer noteId);
 }
 
-===== 文件: D:\IDEAproject\MBplatform\src\platform\mapper\MovieBookMapper.java =====
+===== 文件: D:\IDEAproject\MBplatform\src\main\java\platform\mapper\MovieBookMapper.java =====
 package platform.mapper;
 
 import platform.entity.MovieBook;
-import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -1959,11 +1521,10 @@ public interface MovieBookMapper {
     java.util.Map<String, Object> selectStatsOverview();
 }
 
-===== 文件: D:\IDEAproject\MBplatform\src\platform\mapper\NoteMapper.java =====
+===== 文件: D:\IDEAproject\MBplatform\src\main\java\platform\mapper\NoteMapper.java =====
 package platform.mapper;
 
 import platform.entity.Note;
-import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -1978,12 +1539,10 @@ public interface NoteMapper {
     int delete(Integer id);
 }
 
-===== 文件: D:\IDEAproject\MBplatform\src\platform\mapper\UserMapper.java =====
+===== 文件: D:\IDEAproject\MBplatform\src\main\java\platform\mapper\UserMapper.java =====
 package platform.mapper;
 
 import platform.entity.User;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
 
 
 public interface UserMapper {
@@ -1994,7 +1553,7 @@ public interface UserMapper {
     int delete(Integer id);
 }
 
-===== 文件: D:\IDEAproject\MBplatform\src\platform\service\impl\CategoryImpl.java =====
+===== 文件: D:\IDEAproject\MBplatform\src\main\java\platform\service\impl\CategoryImpl.java =====
 package platform.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -2037,7 +1596,7 @@ public class CategoryImpl implements CategoryService {
     }
 }
 
-===== 文件: D:\IDEAproject\MBplatform\src\platform\service\impl\CollectImpl.java =====
+===== 文件: D:\IDEAproject\MBplatform\src\main\java\platform\service\impl\CollectImpl.java =====
 package platform.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -2113,7 +1672,7 @@ public class CollectImpl implements CollectService {
     }
 }
 
-===== 文件: D:\IDEAproject\MBplatform\src\platform\service\impl\CommentImpl.java =====
+===== 文件: D:\IDEAproject\MBplatform\src\main\java\platform\service\impl\CommentImpl.java =====
 package platform.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -2188,7 +1747,7 @@ public class CommentImpl implements CommentService {
     }
 }
 
-===== 文件: D:\IDEAproject\MBplatform\src\platform\service\impl\LikesImpl.java =====
+===== 文件: D:\IDEAproject\MBplatform\src\main\java\platform\service\impl\LikesImpl.java =====
 package platform.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -2275,7 +1834,7 @@ public class LikesImpl implements LikesService {
     }
 }
 
-===== 文件: D:\IDEAproject\MBplatform\src\platform\service\impl\MovieBookImpl.java =====
+===== 文件: D:\IDEAproject\MBplatform\src\main\java\platform\service\impl\MovieBookImpl.java =====
 package platform.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -2396,7 +1955,7 @@ public class MovieBookImpl implements MovieBookService {
 
 }
 
-===== 文件: D:\IDEAproject\MBplatform\src\platform\service\impl\NoteImpl.java =====
+===== 文件: D:\IDEAproject\MBplatform\src\main\java\platform\service\impl\NoteImpl.java =====
 package platform.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -2489,7 +2048,7 @@ public class NoteImpl implements NoteService {
 
 }
 
-===== 文件: D:\IDEAproject\MBplatform\src\platform\service\impl\UserImpl.java =====
+===== 文件: D:\IDEAproject\MBplatform\src\main\java\platform\service\impl\UserImpl.java =====
 package platform.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -2535,7 +2094,7 @@ public class UserImpl implements UserService {
     }
 }
 
-===== 文件: D:\IDEAproject\MBplatform\src\platform\service\CategoryService.java =====
+===== 文件: D:\IDEAproject\MBplatform\src\main\java\platform\service\CategoryService.java =====
 package platform.service;
 
 import platform.entity.Category;
@@ -2550,7 +2109,7 @@ public interface CategoryService {
     int delete(Integer id);
 }
 
-===== 文件: D:\IDEAproject\MBplatform\src\platform\service\CollectService.java =====
+===== 文件: D:\IDEAproject\MBplatform\src\main\java\platform\service\CollectService.java =====
 package platform.service;
 
 import platform.entity.Collect;
@@ -2567,7 +2126,7 @@ public interface CollectService {
     boolean isCollected(Integer userId, Integer mbId);
 }
 
-===== 文件: D:\IDEAproject\MBplatform\src\platform\service\CommentService.java =====
+===== 文件: D:\IDEAproject\MBplatform\src\main\java\platform\service\CommentService.java =====
 package platform.service;
 
 import platform.entity.Comment;
@@ -2583,7 +2142,7 @@ public interface CommentService {
     int delete(Integer id);
 }
 
-===== 文件: D:\IDEAproject\MBplatform\src\platform\service\LikesService.java =====
+===== 文件: D:\IDEAproject\MBplatform\src\main\java\platform\service\LikesService.java =====
 package platform.service;
 
 import platform.entity.Likes;
@@ -2600,7 +2159,7 @@ public interface LikesService {
     boolean isLiked(Integer userId, Integer noteId);
 }
 
-===== 文件: D:\IDEAproject\MBplatform\src\platform\service\MovieBookService.java =====
+===== 文件: D:\IDEAproject\MBplatform\src\main\java\platform\service\MovieBookService.java =====
 package platform.service;
 
 import platform.entity.MovieBook;
@@ -2635,7 +2194,7 @@ public interface MovieBookService {
     int recalculateScoreAndHot(Integer id);
 }
 
-===== 文件: D:\IDEAproject\MBplatform\src\platform\service\NoteService.java =====
+===== 文件: D:\IDEAproject\MBplatform\src\main\java\platform\service\NoteService.java =====
 package platform.service;
 
 import platform.entity.Note;
@@ -2651,7 +2210,7 @@ public interface NoteService {
     int delete(Integer id);
 }
 
-===== 文件: D:\IDEAproject\MBplatform\src\platform\service\UserService.java =====
+===== 文件: D:\IDEAproject\MBplatform\src\main\java\platform\service\UserService.java =====
 package platform.service;
 
 import platform.entity.User;
@@ -2664,7 +2223,7 @@ public interface UserService {
     int delete(Integer id);
 }
 
-===== 文件: D:\IDEAproject\MBplatform\src\platform\util\Result.java =====
+===== 文件: D:\IDEAproject\MBplatform\src\main\java\platform\util\Result.java =====
 package platform.util;
 
 public class Result {
@@ -2714,7 +2273,7 @@ public class Result {
     }
 }
 
-===== 文件: D:\IDEAproject\MBplatform\src\platform\Main.java =====
+===== 文件: D:\IDEAproject\MBplatform\src\main\java\platform\Main.java =====
 package platform;
 
 import org.mybatis.spring.annotation.MapperScan;
@@ -2729,6 +2288,459 @@ public class Main {
     }
 }
 
+
+===== 文件: D:\IDEAproject\MBplatform\src\main\resources\mapper\CategoryMapper.xml =====
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="platform.mapper.CategoryMapper">
+    <resultMap id="CategoryMap" type="platform.entity.Category">
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+    </resultMap>
+
+    <insert id="insert" parameterType="platform.entity.Category">
+        INSERT INTO category (name) VALUES (#{name})
+    </insert>
+
+    <select id="selectById" resultMap="CategoryMap">
+        SELECT * FROM category WHERE id = #{id}
+    </select>
+
+    <select id="selectAll" resultMap="CategoryMap">
+        SELECT * FROM category
+    </select>
+
+    <update id="update" parameterType="platform.entity.Category">
+        UPDATE category SET name = #{name} WHERE id = #{id}
+    </update>
+
+    <delete id="delete">
+        DELETE FROM category WHERE id = #{id}
+    </delete>
+</mapper>
+
+===== 文件: D:\IDEAproject\MBplatform\src\main\resources\mapper\CollectMapper.xml =====
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="platform.mapper.CollectMapper">
+    <resultMap id="CollectMap" type="platform.entity.Collect">
+        <id column="id" property="id"/>
+        <result column="user_id" property="userId"/>
+        <result column="mb_id" property="mbId"/>
+        <result column="create_time" property="createTime"/>
+    </resultMap>
+
+    <insert id="insert" parameterType="platform.entity.Collect">
+        INSERT INTO collect (user_id, mb_id, create_time)
+        VALUES (#{userId}, #{mbId}, NOW())
+    </insert>
+
+    <select id="selectById" resultMap="CollectMap">
+        SELECT * FROM collect WHERE id = #{id}
+    </select>
+
+    <select id="selectByUserMb" resultMap="CollectMap">
+        SELECT * FROM collect WHERE user_id = #{userId} AND mb_id = #{mbId}
+    </select>
+
+    <select id="selectByUserId" resultMap="CollectMap">
+        SELECT * FROM collect WHERE user_id = #{userId}
+    </select>
+
+    <select id="selectByMbId" resultMap="CollectMap">
+        SELECT * FROM collect WHERE mb_id = #{mbId}
+    </select>
+
+    <delete id="delete">
+        DELETE FROM collect WHERE id = #{id}
+    </delete>
+
+    <delete id="deleteByUserMb">
+        DELETE FROM collect WHERE user_id = #{userId} AND mb_id = #{mbId}
+    </delete>
+</mapper>
+
+===== 文件: D:\IDEAproject\MBplatform\src\main\resources\mapper\CommentMapper.xml =====
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="platform.mapper.CommentMapper">
+    <resultMap id="CommentMap" type="platform.entity.Comment">
+        <id column="id" property="id"/>
+        <result column="user_id" property="userId"/>
+        <result column="note_id" property="noteId"/>
+        <result column="content" property="content"/>
+        <result column="create_time" property="createTime"/>
+        <result column="avatar" property="userAvatar"/>
+    </resultMap>
+
+    <insert id="insert" parameterType="platform.entity.Comment">
+        INSERT INTO comment (user_id, note_id, content, create_time)
+        VALUES (#{userId}, #{noteId}, #{content}, NOW())
+    </insert>
+
+    <select id="selectById" resultMap="CommentMap">
+        SELECT * FROM comment WHERE id = #{id}
+    </select>
+
+    <select id="selectByUserId" resultMap="CommentMap">
+        SELECT * FROM comment WHERE user_id = #{userId}
+    </select>
+
+    <select id="selectByNoteId" resultMap="CommentMap">
+        SELECT
+        c.id,
+        c.user_id,
+        c.note_id,
+        c.content,
+        c.create_time,
+        u.nickname,
+        u.avatar
+        FROM comment c
+        LEFT JOIN user u ON c.user_id = u.id
+        WHERE c.note_id = #{noteId}
+        ORDER BY c.create_time DESC
+    </select>
+
+    <update id="update" parameterType="platform.entity.Comment">
+        UPDATE comment
+        SET content = #{content}
+        WHERE id = #{id}
+    </update>
+
+    <delete id="delete">
+        DELETE FROM comment WHERE id = #{id}
+    </delete>
+
+    <delete id="deleteByNoteId">
+        DELETE FROM comment WHERE note_id = #{noteId}
+    </delete>
+
+</mapper>
+
+===== 文件: D:\IDEAproject\MBplatform\src\main\resources\mapper\LikesMapper.xml =====
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="platform.mapper.LikesMapper">
+    <resultMap id="LikesMap" type="platform.entity.Likes">
+        <id column="id" property="id"/>
+        <result column="user_id" property="userId"/>
+        <result column="note_id" property="noteId"/>
+        <result column="create_time" property="createTime"/>
+    </resultMap>
+
+    <insert id="insert" parameterType="platform.entity.Likes">
+        INSERT INTO likes (user_id, note_id, create_time)
+        VALUES (#{userId}, #{noteId}, NOW())
+    </insert>
+
+    <select id="selectById" resultMap="LikesMap">
+        SELECT * FROM likes WHERE id = #{id}
+    </select>
+
+    <select id="selectByUserNote" resultMap="LikesMap">
+        SELECT * FROM likes WHERE user_id = #{userId} AND note_id = #{noteId}
+    </select>
+
+    <select id="selectByUserId" resultMap="LikesMap">
+        SELECT * FROM likes WHERE user_id = #{userId}
+    </select>
+
+    <select id="selectByNoteId" resultMap="LikesMap">
+        SELECT * FROM likes WHERE note_id = #{noteId}
+    </select>
+
+    <delete id="delete">
+        DELETE FROM likes WHERE id = #{id}
+    </delete>
+
+    <delete id="deleteByUserNote">
+        DELETE FROM likes WHERE user_id = #{userId} AND note_id = #{noteId}
+    </delete>
+
+    <delete id="deleteByNoteId">
+        DELETE FROM likes WHERE note_id = #{noteId}
+    </delete>
+
+</mapper>
+
+===== 文件: D:\IDEAproject\MBplatform\src\main\resources\mapper\MovieBookMapper.xml =====
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="platform.mapper.MovieBookMapper">
+    <resultMap id="MovieBookMap" type="platform.entity.MovieBook">
+        <id column="id" property="id"/>
+        <result column="type" property="type"/>
+        <result column="category_id" property="categoryId"/>
+        <result column="title" property="title"/>
+        <result column="cover" property="cover"/>
+        <result column="intro" property="intro"/>
+        <result column="score" property="score"/>
+        <result column="hot" property="hot"/>
+        <result column="audit_status" property="auditStatus"/>
+        <result column="apply_user_id" property="applyUserId"/>
+        <result column="create_time" property="createTime"/>
+    </resultMap>
+
+    <resultMap id="MovieBookDetailMap" type="platform.entity.MovieBook">
+        <id column="id" property="id"/>
+        <result column="type" property="type"/>
+        <result column="title" property="title"/>
+        <!-- 核心修复：在此处加回 cover 封面印记，确保通过 View 获取详情时封面存续 -->
+        <result column="cover" property="cover"/>
+        <result column="category_name" property="categoryName"/>
+        <result column="intro" property="intro"/>
+        <result column="score" property="score"/>
+        <result column="hot" property="hot"/>
+        <result column="note_count" property="noteCount"/>
+    </resultMap>
+
+    <insert id="insert" parameterType="platform.entity.MovieBook">
+        INSERT INTO movie_book (type, category_id, title, cover, intro, score, hot, audit_status, apply_user_id, create_time)
+        VALUES (#{type}, #{categoryId}, #{title}, #{cover}, #{intro}, #{score}, IFNULL(#{hot},0), #{auditStatus}, #{applyUserId}, NOW())
+    </insert>
+
+    <select id="selectById" resultMap="MovieBookMap">
+        SELECT * FROM movie_book WHERE id = #{id}
+    </select>
+
+    <select id="selectByType" resultMap="MovieBookMap">
+        SELECT * FROM movie_book WHERE type = #{type} AND audit_status = 1
+    </select>
+
+    <select id="selectByCategory" resultMap="MovieBookMap">
+        SELECT * FROM movie_book WHERE category_id = #{categoryId} AND audit_status = 1
+    </select>
+
+    <select id="selectByAuditStatus" resultMap="MovieBookMap">
+        SELECT * FROM movie_book WHERE audit_status = #{auditStatus}
+    </select>
+
+    <select id="searchByTitle" resultMap="MovieBookMap">
+        SELECT * FROM movie_book WHERE title LIKE CONCAT('%', #{title}, '%') AND audit_status = 1
+    </select>
+
+    <select id="selectHot" resultMap="MovieBookMap">
+        SELECT * FROM movie_book WHERE audit_status = 1 ORDER BY hot DESC LIMIT #{limit}
+    </select>
+
+    <select id="searchByTitleWithProc" resultMap="MovieBookMap">
+        CALL proc_search_movie_book(#{keyword})
+    </select>
+
+    <select id="selectHotWithProc" resultMap="MovieBookMap">
+        CALL proc_get_hot_movie_book(#{limit})
+    </select>
+
+    <update id="auditPassWithProc">
+        CALL proc_audit_pass(#{id})
+    </update>
+
+    <update id="auditRejectWithProc">
+        CALL proc_audit_reject(#{id})
+    </update>
+
+    <select id="selectAllApproved" resultMap="MovieBookMap">
+        SELECT * FROM view_approved_movie_book
+    </select>
+
+    <select id="selectDetailById" resultMap="MovieBookDetailMap">
+        SELECT * FROM view_movie_book_detail WHERE id = #{id}
+    </select>
+
+    <select id="selectAllDetail" resultMap="MovieBookDetailMap">
+        SELECT * FROM view_movie_book_detail
+    </select>
+
+    <update id="update" parameterType="platform.entity.MovieBook">
+        UPDATE movie_book
+        SET type = #{type}, category_id = #{categoryId}, title = #{title},
+        cover = #{cover}, intro = #{intro}, score = #{score}, hot = #{hot},
+        audit_status = #{auditStatus}, apply_user_id = #{applyUserId}
+        WHERE id = #{id}
+    </update>
+
+    <delete id="delete">
+        DELETE FROM movie_book WHERE id = #{id}
+    </delete>
+
+    <update id="updateAuditStatus">
+        UPDATE movie_book SET audit_status = #{status} WHERE id = #{id}
+    </update>
+
+    <update id="updateHot">
+        UPDATE movie_book SET hot = #{hot} WHERE id = #{id}
+    </update>
+
+    <update id="updateScore">
+        UPDATE movie_book SET score = #{score} WHERE id = #{id}
+    </update>
+
+    <!-- 调用统计存储过程 -->
+    <select id="selectStatsOverview" resultType="map" statementType="CALLABLE">
+        CALL proc_stat()
+    </select>
+
+    <!-- 实时重算引擎：将平均分与三大社交热度源（收藏/点赞/书评）完美融合更新 -->
+    <!-- 完美的实时重算引擎：将平均分与四大社交热度源（收藏/点赞/随笔/留言）融合更新 -->
+    <update id="recalculateScoreAndHot">
+        UPDATE movie_book mb
+        SET
+        mb.score = COALESCE(
+        (SELECT AVG(star) FROM note WHERE mb_id = #{id}),
+        0.0
+        ),
+        mb.hot = (
+        (SELECT COUNT(*) FROM collect WHERE mb_id = #{id})  +
+        (SELECT COUNT(*) FROM likes WHERE note_id IN (SELECT id FROM note WHERE mb_id = #{id}))  +
+        (SELECT COUNT(*) FROM note WHERE mb_id = #{id})  +
+        (SELECT COUNT(*) FROM comment WHERE note_id IN (SELECT id FROM note WHERE mb_id = #{id}))
+        )
+        WHERE mb.id = #{id}
+    </update>
+
+</mapper>
+
+===== 文件: D:\IDEAproject\MBplatform\src\main\resources\mapper\NoteMapper.xml =====
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="platform.mapper.NoteMapper">
+    <resultMap id="NoteMap" type="platform.entity.Note">
+        <id column="id" property="id"/>
+        <result column="user_id" property="userId"/>
+        <result column="mb_id" property="mbId"/>
+        <result column="content" property="content"/>
+        <result column="star" property="star"/>
+        <result column="img" property="img"/>
+        <result column="create_time" property="createTime"/>
+        <result column="avatar" property="userAvatar"/>
+    </resultMap>
+
+    <insert id="insert" parameterType="platform.entity.Note">
+        INSERT INTO note (user_id, mb_id, content, star, img, create_time)
+        VALUES (#{userId}, #{mbId}, #{content}, #{star}, #{img}, NOW())
+    </insert>
+
+    <select id="selectById" resultMap="NoteMap">
+        SELECT * FROM note WHERE id = #{id}
+    </select>
+
+    <select id="selectByUserId" resultMap="NoteMap">
+        SELECT
+        n.id,
+        n.user_id,
+        n.mb_id,
+        n.content,
+        n.star,
+        n.img,
+        n.create_time,
+        u.nickname,
+        u.avatar
+        FROM note n
+        LEFT JOIN user u ON n.user_id = u.id
+        WHERE n.user_id = #{userId}
+        ORDER BY n.create_time DESC
+    </select>
+
+    <select id="selectByMbId" resultMap="NoteMap">
+        SELECT
+        n.id,
+        n.user_id,
+        n.mb_id,
+        n.content,
+        n.star,
+        n.img,
+        n.create_time,
+        u.nickname,
+        u.avatar
+        FROM note n
+        LEFT JOIN user u ON n.user_id = u.id
+        WHERE n.mb_id = #{mbId}
+        ORDER BY n.create_time DESC
+    </select>
+
+    <update id="update" parameterType="platform.entity.Note">
+        UPDATE note SET user_id = #{userId}, mb_id = #{mbId}, content = #{content}, star = #{star}, img = #{img}
+        WHERE id = #{id}
+    </update>
+
+    <delete id="delete">
+        DELETE FROM note WHERE id = #{id}
+    </delete>
+</mapper>
+
+===== 文件: D:\IDEAproject\MBplatform\src\main\resources\mapper\UserMapper.xml =====
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="platform.mapper.UserMapper">
+    <resultMap id="UserMap" type="platform.entity.User">
+        <id column="id" property="id"/>
+        <result column="username" property="username"/>
+        <result column="password" property="password"/>
+        <result column="nickname" property="nickname"/>
+        <result column="avatar" property="avatar"/>
+        <result column="role" property="role"/>
+        <result column="create_time" property="createTime"/>
+    </resultMap>
+
+    <insert id="insert" parameterType="platform.entity.User">
+        INSERT INTO user (username, password, nickname, avatar, role, create_time)
+        VALUES (#{username}, #{password}, #{nickname}, #{avatar}, #{role}, NOW())
+    </insert>
+
+    <select id="selectById" resultMap="UserMap">
+        SELECT * FROM user WHERE id = #{id}
+    </select>
+
+    <select id="selectByUsername" resultMap="UserMap">
+        SELECT * FROM user WHERE username = #{username}
+    </select>
+
+    <update id="update" parameterType="platform.entity.User">
+        UPDATE user
+        <set>
+            <if test="username != null and username != ''">username = #{username},</if>
+            <if test="password != null and password != ''">password = #{password},</if>
+            <if test="nickname != null">nickname = #{nickname},</if>
+            <if test="avatar != null">avatar = #{avatar},</if>
+            <if test="role != null">role = #{role}</if>
+        </set>
+        WHERE id = #{id}
+    </update>
+
+    <delete id="delete">
+        DELETE FROM user WHERE id = #{id}
+    </delete>
+</mapper>
+
+===== 文件: D:\IDEAproject\MBplatform\src\main\resources\application.yml =====
+server:
+  port: 8080
+
+spring:
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 10MB
+      max-request-size: 20MB
+
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/movie_note_platform?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
+    username: root
+    password: root
+
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+  type-aliases-package: platform.entity
+  configuration:
+    map-underscore-to-camel-case: true
+
+logging:
+  level:
+    platform.mapper: debug
+
+file:
+  upload-path: ./upload/
 
 ===== 文件: D:\IDEAproject\MBplatform\pom.xml =====
 <?xml version="1.0" encoding="UTF-8"?>
@@ -2788,7 +2800,7 @@ public class Main {
     <build>
         <resources>
             <resource>
-                <directory>res</directory>
+                <directory>src/main/resources</directory>
                 <includes>
                     <include>**/*.yml</include>
                     <include>**/*.xml</include>
