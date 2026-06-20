@@ -11,6 +11,7 @@ public interface NoteMapper {
     Note selectById(Integer id);
     List<Note> selectByUserId(@Param("userId") Integer userId);
     List<Note> selectByMbId(@Param("mbId") Integer mbId);
+    List<Note> selectAll();
     int update(Note note);
     int delete(Integer id);
 }

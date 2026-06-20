@@ -55,6 +55,13 @@
         ORDER BY n.create_time DESC
     </select>
 
+    <select id="selectAll" resultMap="NoteMap">
+        SELECT n.*, u.nickname, u.avatar
+        FROM note n
+        LEFT JOIN user u ON n.user_id = u.id
+        ORDER BY n.id DESC
+    </select>
+
     <update id="update" parameterType="platform.entity.Note">
         UPDATE note SET user_id = #{userId}, mb_id = #{mbId}, content = #{content}, star = #{star}, img = #{img}
         WHERE id = #{id}

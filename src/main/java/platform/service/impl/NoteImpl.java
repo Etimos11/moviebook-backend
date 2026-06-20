@@ -53,6 +53,11 @@ public class NoteImpl implements NoteService {
     }
 
     @Override
+    public List<Note> getAll() {
+        return noteMapper.selectAll();
+    }
+
+    @Override
     @Transactional
     public int update(Note note) {
         int result = noteMapper.update(note);

@@ -56,6 +56,15 @@ public class NoteController {
         }
     }
 
+    @GetMapping("/all")
+    public Result getAll() {
+        try {
+            return Result.success(noteService.getAll());
+        } catch (Exception e) {
+            return Result.error("获取笔记失败：" + e.getMessage());
+        }
+    }
+
     @PutMapping("/update")
     public Result update(@RequestBody Note note) {
         try {
